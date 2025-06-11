@@ -86,9 +86,9 @@ class LLMGenerationManager:
 
         if next_obs_ids.shape[1] > self.config.max_obs_length:
             print(f"[WARNING] OBSERVATION TOO LONG, CONSIDER CHANGING YOUR CONFIG, {next_obs_ids.shape[1]} & {self.config.max_obs_length}")            
-            print(f"[debug]--------- len(next_obs_ids): {next_obs_ids.shape[1]}")
+            print(f"-----[Debug]----- len(next_obs_ids): {next_obs_ids.shape[1]}")
             next_obs_ids = next_obs_ids[:, :self.config.max_obs_length]
-
+            assert 1==0
         return next_obs_ids
 
     def _update_rolling_state(self, rollings: DataProto, cur_responses: torch.Tensor, 
@@ -184,7 +184,9 @@ class LLMGenerationManager:
         for key in active_batch.batch.keys():
             active_batch.batch[key] = active_batch.batch[key].long()
         if remainder == 0:
-            return self.actor_rollout_wg.generate_sequences(active_batch)
+            padded_output = self.actor_rollout_wg.generate_sequences(active_batch)
+            print(f"-----[Debug]----- padded_output.batch[responses]: {padded_output.batch['responses'].shape}")
+            return padded_output
         
         # Add padding sequences
         padding_size = num_gpus - remainder
@@ -199,9 +201,11 @@ class LLMGenerationManager:
         for key in padded_active_batch.batch.keys():
             padded_active_batch.batch[key] = padded_active_batch.batch[key].long()
 
+        # print(f"----------[Debug]---------- padded_active_batch: {padded_active_batch}",padded_active_batch)
         # Generate with padded batch
         padded_output = self.actor_rollout_wg.generate_sequences(padded_active_batch)
-
+        print(f"-----[Debug]----- padded_output.batch[responses]: {padded_output.batch['responses'].shape}")
+        # assert 1==0
         # Remove padding from output
         trimmed_batch = {k: v[:-padding_size] for k, v in padded_output.batch.items()}
         
@@ -230,7 +234,7 @@ class LLMGenerationManager:
         valid_search_stats = torch.zeros(gen_batch.batch['input_ids'].shape[0], dtype=torch.int)
         active_num_list = [active_mask.sum().item()]
         rollings = gen_batch
-        print(f'[debug]--------- begin generation loop')
+        print(f'-----[Debug]----- begin generation loop')
         # Main generation loop
         for step in range(self.config.max_turns):
             if not active_mask.sum():
@@ -245,16 +249,20 @@ class LLMGenerationManager:
                 k: v[active_mask] for k, v in rollings.batch.items()
             })            
             gen_output = self._generate_with_gpu_padding(rollings_active)
-
+            print(f"-----[Debug]----- gen_output.batch[responses] after _generate_with_gpu_padding: {gen_output.batch['responses'].shape}")
             meta_info = gen_output.meta_info            
             responses_ids, responses_str = self._postprocess_responses(gen_output.batch['responses'])
+            print("-----[Debug]----- responses_ids after _postprocess_responses:", responses_ids.shape)
             responses_ids, responses_str = self.tensor_fn._example_level_pad(responses_ids, responses_str, active_mask)
-
+            print(f"-----[Debug]----- responses_ids after _example_level_pad: {responses_ids.shape}")
             # Execute in environment and process observations
+            print(f"-----[Debug]----- responses_str before execute_predictions: {responses_str[0]}")
             next_obs, dones, valid_action, is_search = self.execute_predictions(
                 responses_str, self.tokenizer.pad_token, active_mask
             )
-            
+            max_idx, max_obs = max(enumerate(next_obs), key=lambda x: len(x[1]))
+            print(f"-----[Debug]----- longest_item: {next_obs[max_idx]}")
+            print(f"batch size: {len(next_obs)}, longest item: {next_obs[max_idx]}, response{responses_str[max_idx]}, obs {max_obs}")
             curr_active_mask = torch.tensor([not done for done in dones], dtype=torch.bool)
             active_mask = active_mask * curr_active_mask
             active_num_list.append(active_mask.sum().item())
@@ -275,7 +283,7 @@ class LLMGenerationManager:
                 responses_ids,
                 next_obs_ids
             )
-        print(f"[debug]--------- end generation")
+        print(f"-----[Debug]----- end generation")
         # final LLM rollout
         if active_mask.sum():
             rollings.batch = self.tensor_fn.cut_to_effective_len(
@@ -415,7 +423,7 @@ If I want to give the final answer, I should put the answer between <answer> and
         Returns:
             Tuple of (actions list, validity flags list)
         """
-        actions = []
+        actions = [] 
         contents = []
                 
         for prediction in predictions:
@@ -455,7 +463,6 @@ If I want to give the final answer, I should put the answer between <answer> and
             "topk": self.config.topk,
             "return_scores": True
         }
-        
         return requests.post(self.config.search_url, json=payload).json()
 
     def _passages2string(self, retrieval_result):
@@ -463,6 +470,7 @@ If I want to give the final answer, I should put the answer between <answer> and
         for idx, doc_item in enumerate(retrieval_result):
             
             content = doc_item['document']['contents']
+            print("content:", content)
             title = content.split("\n")[0]
             text = "\n".join(content.split("\n")[1:])
             format_reference += f"Doc {idx+1}(Title: {title}) {text}\n"

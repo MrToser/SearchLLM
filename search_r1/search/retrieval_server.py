@@ -41,7 +41,7 @@ def load_model(model_path: str, use_fp16: bool = False):
     model.eval()
     model = model.to("cuda")
     # model.cuda()
-    print("[debug]----------: model.device:", model.device)
+    print("-----[Debug]-----: model.device:", model.device)
     if use_fp16: 
         model = model.half()
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, trust_remote_code=True)
@@ -70,7 +70,7 @@ class Encoder:
         self.pooling_method = pooling_method
         self.max_length = max_length
         self.use_fp16 = use_fp16
-        print("[debug]----------: Loading model from", model_path)
+        print("-----[Debug]-----: Loading model from", model_path)
         self.model, self.tokenizer = load_model(model_path=model_path, use_fp16=use_fp16)
         self.model.eval()
 
@@ -210,7 +210,7 @@ class DenseRetriever(BaseRetriever):
     def __init__(self, config):
         super().__init__(config)
         self.index = faiss.read_index(self.index_path)
-        print("[debug]----------: read_index done ----------")
+        print("-----[Debug]-----: read_index done ----------")
         if config.faiss_gpu:
             co = faiss.GpuMultipleClonerOptions()
             co.useFloat16 = True
@@ -281,7 +281,7 @@ def get_retriever(config):
     if config.retrieval_method == "bm25":
         return BM25Retriever(config)
     else:
-        print("[debug]----------: Using dense retriever ----------")
+        print("-----[Debug]-----: Using dense retriever ----------")
         return DenseRetriever(config)
 
 

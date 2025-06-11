@@ -306,12 +306,11 @@ import time
 @contextmanager
 def _timer(name: str, timing_raw: Dict[str, float]):
     with Timer(name=name, logger=None) as timer:
-        # start = time.time()
+        start = time.time()
         yield
     timing_raw[name] = timer.last
-        
-        # duration = time.time() - start
-        # print(f"[TIMER] {name}: {duration:.2f} seconds")
+    duration = time.time() - start
+    print(f"[TIMER] {name}: {duration:.2f} seconds")
 
 
 class RayPPOTrainer(object):
@@ -384,9 +383,9 @@ class RayPPOTrainer(object):
                                          filter_prompts=True,
                                          return_raw_chat=self.config.data.get('return_raw_chat', False),
                                          truncation='error')
-        print("[debug]--------- len of training dataset:", len(self.train_dataset.dataframe))
-        print("[debug]--------- train_files:", self.config.data.train_files)
-        print("[debug]--------- self.train_dataset[1]", self.train_dataset[1])
+        print("-----[Debug]----- len of training dataset:", len(self.train_dataset.dataframe))
+        print("-----[Debug]----- train_files:", self.config.data.train_files)
+        print("-----[Debug]----- self.train_dataset[1]", self.train_dataset[1])
         
         if self.config.data.train_data_num is not None:
             if self.config.data.train_data_num > len(self.train_dataset.dataframe):
@@ -409,9 +408,9 @@ class RayPPOTrainer(object):
                                        return_raw_chat=self.config.data.get('return_raw_chat', False),
                                        truncation='error')
 
-        print("[debug]--------- len of validate dataset:", len(self.val_dataset.dataframe))
-        print("[debug]--------- validate_files:", self.config.data.train_files)
-        print("[debug]--------- self.val_dataset[1]", self.val_dataset[1])
+        print("-----[Debug]----- len of validate dataset:", len(self.val_dataset.dataframe))
+        print("-----[Debug]----- validate_files:", self.config.data.train_files)
+        print("-----[Debug]----- self.val_dataset[1]", self.val_dataset[1])
         
         if self.config.data.val_data_num is not None:
             if self.config.data.val_data_num > len(self.val_dataset.dataframe):
@@ -614,6 +613,7 @@ class RayPPOTrainer(object):
             worker_dict_cls = create_colocated_worker_cls(class_dict=class_dict)
             wg_dict = self.ray_worker_group_cls(resource_pool=resource_pool, ray_cls_with_init=worker_dict_cls)
             spawn_wg = wg_dict.spawn(prefix_set=class_dict.keys())
+            print("-----[Debug]-----: spawn wg_dict", spawn_wg)
             all_wg.update(spawn_wg)
             # keep the referece of WorkerDict to support ray >= 2.31. Ref: https://github.com/ray-project/ray/pull/45699
             self.wg_dicts.append(wg_dict)
@@ -671,13 +671,13 @@ class RayPPOTrainer(object):
         The driver process only need to call the compute functions of the worker group through RPC to construct the PPO dataflow.
         The light-weight advantage computation is done on the driver process.
         """
-        print("[debug]----------: begin training")
+        print("-----[Debug]-----: begin training")
         logger = self.logger
         self.global_steps = 0
         # perform validation before training
         # currently, we only support validation using the reward_function.
         if self.val_reward_fn is not None and self.config.trainer.get('val_before_train', True):
-            print("[debug]----------: begin validation first")
+            print("-----[Debug]-----: begin validation first")
             val_metrics = self._validate()
             pprint(f'Initial validation metrics: {val_metrics}')
             logger.log(data=val_metrics, step=self.global_steps)
@@ -709,7 +709,7 @@ class RayPPOTrainer(object):
         # start training loop
         for epoch in range(self.config.trainer.total_epochs):
             for batch_dict in self.train_dataloader:
-                print(f'[debug]--------- epoch {epoch}, step {self.global_steps}')
+                print(f'-----[Debug]----- epoch {epoch}, step {self.global_steps}')
                 metrics = {}
                 timing_raw = {}
 
@@ -737,7 +737,7 @@ class RayPPOTrainer(object):
                 ####################
                 # with _timer('step', timing_raw):
                     else:
-                        print(f'[debug]--------- begin run_llm_loop')
+                        print(f'-----[Debug]----- begin run_llm_loop')
                         
                         first_input_ids = gen_batch.batch['input_ids'][:, -gen_config.max_start_length:].clone().long()
 
@@ -747,7 +747,7 @@ class RayPPOTrainer(object):
                                 gen_batch=gen_batch,
                                 initial_input_ids=first_input_ids,
                             )
-                        print(f'[debug]--------- end run_llm_loop')
+                        print(f'-----[Debug]----- end run_llm_loop')
                         # final_gen_batch_output.batch.apply(lambda x: x.long(), inplace=True)
                         for key in final_gen_batch_output.batch.keys():
                             final_gen_batch_output.batch[key] = final_gen_batch_output.batch[key].long()
@@ -779,13 +779,13 @@ class RayPPOTrainer(object):
                     for key in batch.batch.keys():
                         if key != 'old_log_probs':
                             batch.batch[key] = batch.batch[key].long()
-                    print(f'[debug]--------- begin compute reference log_prob')
+                    print(f'-----[Debug]----- begin compute reference log_prob')
                     if self.use_reference_policy:
                         # compute reference log_prob
                         with _timer('ref', timing_raw):
                             ref_log_prob = self.ref_policy_wg.compute_ref_log_prob(batch)
                             batch = batch.union(ref_log_prob)
-                    print(f'[debug]--------- begin compute values')
+                    print(f'-----[Debug]----- begin compute values')
                     # compute values
                     if self.use_critic:
                         with _timer('values', timing_raw):
@@ -820,7 +820,7 @@ class RayPPOTrainer(object):
                                                   gamma=self.config.algorithm.gamma,
                                                   lam=self.config.algorithm.lam,
                                                   num_repeat=self.config.actor_rollout_ref.rollout.n)
-                    print(f'[debug]--------- begin update critic')
+                    print(f'-----[Debug]----- begin update critic')
                     # update critic
                     if self.use_critic:
                         with _timer('update_critic', timing_raw):
@@ -828,7 +828,7 @@ class RayPPOTrainer(object):
                         critic_output_metrics = reduce_metrics(critic_output.meta_info['metrics'])
                         metrics.update(critic_output_metrics)
                     
-                    print(f'[debug]--------- begin implement critic warmup')
+                    print(f'-----[Debug]----- begin implement critic warmup')
                     # implement critic warmup
                     if self.config.trainer.critic_warmup <= self.global_steps:
                         # update actor
@@ -838,7 +838,7 @@ class RayPPOTrainer(object):
                             actor_output = self.actor_rollout_wg.update_actor(batch)
                         actor_output_metrics = reduce_metrics(actor_output.meta_info['metrics'])
                         metrics.update(actor_output_metrics)
-                    print(f'[debug]--------- begin validate')
+                    print(f'-----[Debug]----- begin validate')
                     # validate
                     if self.val_reward_fn is not None and self.config.trainer.test_freq > 0 and \
                         self.global_steps % self.config.trainer.test_freq == 0:
@@ -860,7 +860,7 @@ class RayPPOTrainer(object):
 
                 
 
-                # print(f'[debug]--------- begin _validate')
+                # print(f'-----[Debug]----- begin _validate')
                 # if self.global_steps >= self.total_training_steps:
                 # if self.global_steps % 2 == 0 :
                 #     if self.val_reward_fn is not None:

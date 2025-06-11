@@ -55,9 +55,9 @@ class RewardManager():
         # all_scores = []
 
         already_print_data_sources = {}
-        print("[debug]---------- begin reward computation ----------")
-        print("[debug]---------- data_len",len(data))
-        print("[debug]--------- data[0]",data[0])
+        print("-----[Debug]----- begin reward computation ----------")
+        print("-----[Debug]----- data_len",len(data))
+        print("-----[Debug]----- data[0]",data[0])
         for i in range(len(data)):
             data_item = data[i]  # DataProtoItem
 
@@ -93,7 +93,7 @@ class RewardManager():
             if already_print_data_sources[data_source] < self.num_examine:
                 already_print_data_sources[data_source] += 1
                 print(sequences_str)
-        print("[debug]---------- reward over")
+        print("-----[Debug]----- reward over")
         # print(f"[DEBUG] all_scores: {all_scores}")
         # print(f"[DEBUG] all_scores shape: {np.array(all_scores).shape}")
         # print(f"[DEBUG] all_scores mean: {np.mean(all_scores)}")
@@ -110,25 +110,6 @@ import hydra
 
 @hydra.main(config_path='config', config_name='ppo_trainer', version_base=None)
 def main(config):
-    def set_seed(seed):
-        """
-        Set random seeds for reproducibility.
-        
-        Args:
-            seed (int): The random seed to use
-        """
-        torch.manual_seed(seed)
-        torch.cuda.manual_seed(seed)
-        np.random.seed(seed)
-        random.seed(seed)
-        torch.backends.cudnn.benchmark = False
-        torch.backends.cudnn.deterministic = True
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(seed)
-            torch.cuda.manual_seed_all(seed)
-    seed = config.get('seed', 42)
-    set_seed(seed)
-    
     if not ray.is_initialized():
         # this is for local ray cluster
         ray.init(ignore_reinit_error=True,
@@ -150,16 +131,32 @@ def main(config):
                 'NCCL_DEBUG': 'WARN',
                 'TOKENIZERS_PARALLELISM': 'false'
             }
-        }).remote(config))
+    }).remote(config))
 
 
 @ray.remote
 def main_task(config):
     import os
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
-    os.environ["HIP_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["HIP_VISIBLE_DEVICES"] = "4,5,6"
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
-    
+    def set_seed(seed):
+        """
+        Set random seeds for reproducibility.
+        
+        Args:
+            seed (int): The random seed to use
+        """
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
+        torch.backends.cudnn.benchmark = False
+        torch.backends.cudnn.deterministic = True
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(seed)
+            torch.cuda.manual_seed_all(seed)
+    seed = config.get('seed', 42)
+    set_seed(seed)
     from verl.utils.fs import copy_local_path_from_hdfs
     from transformers import AutoTokenizer
 

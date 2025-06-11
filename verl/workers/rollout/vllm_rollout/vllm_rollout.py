@@ -141,6 +141,7 @@ class vLLMRollout(BaseRollout):
     @torch.no_grad()
     def generate_sequences(self, prompts: DataProto, **kwargs) -> DataProto:
         # rebuild vllm cache engine
+        # print("---------[Debug]--------- in vllm_rollout.py, generate_sequences")
         if self.config.free_cache_engine:
             self.inference_engine.init_cache_engine()
 
@@ -183,6 +184,8 @@ class vLLMRollout(BaseRollout):
         response = output[0].to(idx.device)
         log_probs = output[1].to(idx.device)
 
+        # print(f"response shape: {response.shape}, log_probs shape: {log_probs.shape}")
+        # print(f"response: {response}, log_probs: {log_probs}")
         if response.shape[1] < self.config.response_length:
             response = pad_sequence_to_length(response, self.config.response_length, self.pad_token_id)
             log_probs = pad_sequence_to_length(log_probs, self.config.response_length, self.pad_token_id)
