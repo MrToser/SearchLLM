@@ -306,12 +306,12 @@ import time
 @contextmanager
 def _timer(name: str, timing_raw: Dict[str, float]):
     with Timer(name=name, logger=None) as timer:
-        start = time.time()
+        # start = time.time()
         yield
-        timing_raw[name] = timer.last
+    timing_raw[name] = timer.last
         
-        duration = time.time() - start
-        print(f"[TIMER] {name}: {duration:.2f} seconds")
+        # duration = time.time() - start
+        # print(f"[TIMER] {name}: {duration:.2f} seconds")
 
 
 class RayPPOTrainer(object):
@@ -442,10 +442,10 @@ class RayPPOTrainer(object):
         print(f'Total training steps: {self.total_training_steps}')
 
         OmegaConf.set_struct(self.config, True)
-        # 0608注释
-        # with open_dict(self.config):
-        #     self.config.actor_rollout_ref.actor.optim.total_training_steps = total_training_steps
-        #     self.config.critic.optim.total_training_steps = total_training_steps
+        # 0608注释——注释掉则num_warmup_steps不生效
+        with open_dict(self.config):
+            self.config.actor_rollout_ref.actor.optim.total_training_steps = total_training_steps
+            self.config.critic.optim.total_training_steps = total_training_steps
 
     def _validate(self):
         """
@@ -860,13 +860,13 @@ class RayPPOTrainer(object):
 
                 
 
-                print(f'[debug]--------- begin _validate')
+                # print(f'[debug]--------- begin _validate')
                 # if self.global_steps >= self.total_training_steps:
-                if self.global_steps % 2 == 0 :
-                    if self.val_reward_fn is not None:
-                        val_metrics = self._validate()
-                        pprint(f'step: {self.global_steps} validation metrics: {val_metrics}')
-                        logger.log(data=val_metrics, step=self.global_steps)
+                # if self.global_steps % 2 == 0 :
+                #     if self.val_reward_fn is not None:
+                #         val_metrics = self._validate()
+                #         pprint(f'step: {self.global_steps} validation metrics: {val_metrics}')
+                #         logger.log(data=val_metrics, step=self.global_steps)
                 
                 if self.global_steps >= self.total_training_steps :
                      # perform validation after training
