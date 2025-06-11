@@ -22,6 +22,27 @@ from verl.trainer.ppo.ray_trainer import RayPPOTrainer
 import re
 import numpy as np
 
+import torch
+import numpy as np
+import random
+
+def set_seed(seed):
+    """
+    Set random seeds for reproducibility.
+    
+    Args:
+        seed (int): The random seed to use
+    """
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+
 def _select_rm_score_fn(data_source):
     if data_source in ['nq', 'triviaqa', 'popqa', 'hotpotqa', '2wikimultihopqa', 'musique', 'bamboogle']:
         return qa_em.compute_score_em
@@ -135,6 +156,9 @@ def main_task(config):
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
     os.environ["HIP_VISIBLE_DEVICES"] = "4,5,6,7"
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
+    
+    seed = config.get('seed', 42)
+    set_seed(seed)
     
     from verl.utils.fs import copy_local_path_from_hdfs
     from transformers import AutoTokenizer
