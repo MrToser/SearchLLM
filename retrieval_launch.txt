@@ -1,38 +1,0 @@
-nohup: ignoring input
-INFO:     Started server process [668582]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-instantiate retriever with config:  {'retrieval_method': 'e5', 'retrieval_topk': 3, 'index_path': './datasets/e5_Flat.index', 'corpus_path': './datasets/wiki-18.jsonl', 'dataset_path': './data', 'data_split': 'train', 'faiss_gpu': True, 'retrieval_model_path': 'intfloat/e5-base-v2', 'retrieval_pooling_method': 'mean', 'retrieval_query_max_length': 256, 'retrieval_use_fp16': True, 'retrieval_batch_size': 512}
-[debug]----------: Using dense retriever ----------
-[debug]----------: read_index done ----------
-
-[debug]----------: Loading model from intfloat/e5-base-v2
-[debug]----------: model.device: cuda:0
-retriever loaded successfully.
-launching server...
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:05<00:00,  5.70s/it]Retrieval process: 100%|██████████| 1/1 [00:05<00:00,  5.70s/it]
-INFO:     127.0.0.1:35154 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 21.38it/s]
-INFO:     127.0.0.1:39532 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  3.28it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.81it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.87it/s]
-INFO:     127.0.0.1:37598 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.83it/s]
-INFO:     127.0.0.1:36252 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.25it/s]Retrieval process: 100%|██████████| 2/2 [00:01<00:00,  1.96it/s]Retrieval process: 100%|██████████| 2/2 [00:01<00:00,  1.80it/s]
-INFO:     127.0.0.1:33026 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.67it/s]
-INFO:     127.0.0.1:53832 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.74it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.46it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.32it/s]
-INFO:     127.0.0.1:35876 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 13.65it/s]
-INFO:     127.0.0.1:60994 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.51it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.51it/s]
-INFO:     127.0.0.1:42464 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 25.91it/s]
-INFO:     127.0.0.1:57480 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.82it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.81it/s]
-INFO:     127.0.0.1:38486 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 26.57it/s]
-INFO:     127.0.0.1:33190 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:58022 - "GET / HTTP/1.1" 404 Not Found

