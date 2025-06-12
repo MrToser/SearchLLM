@@ -1,6 +1,6 @@
 export CUDA_VISIBLE_DEVICES=0,1,2
 # export HIP_VISIBLE_DEVICES=0,1,2
-export DATA_DIR='data/nq_search'
+export DATA_DIR='../data/nq_search'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
 
