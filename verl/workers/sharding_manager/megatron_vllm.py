@@ -93,7 +93,7 @@ class AllGatherPPModel:
         assert pp_rank != self.pp_rank, f"unexpected to load current pp rank [{pp_rank}] back to cuda"
         for buffer in self.memory_buffers[pp_rank].values():
             if not to_empty:
-                buffer.data = buffer.data.to(torch.cuda.current_device(), non_blocking=True)
+                buffer.data = buffer.data.to(torch.cuda.current_device(), non_blocking=False)
             else:
                 buffer.data = torch.empty_like(buffer.data, device='cuda')
         # rebuild reference after loading to CUDA
@@ -104,7 +104,7 @@ class AllGatherPPModel:
         for buffer in self.memory_buffers[pp_rank].values():
             if not to_empty:
                 # offload the whole memory buffer to CPU
-                buffer.data = buffer.data.to('cpu', non_blocking=True)
+                buffer.data = buffer.data.to('cpu', non_blocking=False)
             else:
                 buffer.data = torch.empty_like(buffer.data, device='cpu')
         self._build_param_references(pp_rank)

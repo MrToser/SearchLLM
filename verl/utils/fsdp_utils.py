@@ -108,34 +108,34 @@ def get_fsdp_wrap_policy(module, config=None, is_lora=False):
 def offload_fsdp_grad(module):
     for _, param in module.named_parameters():
         if param.grad is not None:
-            param.grad = param.grad.to("cpu", non_blocking=True)
+            param.grad = param.grad.to("cpu", non_blocking=False)
     torch.cuda.empty_cache()
 
 
 def load_fsdp_grad(module, device_id):
     for _, param in module.named_parameters():
         if param.grad is not None:
-            param.grad = param.grad.to(device_id, non_blocking=True)
+            param.grad = param.grad.to(device_id, non_blocking=False)
     torch.cuda.empty_cache()
 
 
 def offload_fsdp_param_and_grad(module, offload_grad=False):
     for _, param in module.named_parameters():
         if hasattr(param, "_local_shard"):
-            param._local_shard = param._local_shard.to("cpu", non_blocking=True)
-        param.data = param.data.to('cpu', non_blocking=True)
+            param._local_shard = param._local_shard.to("cpu", non_blocking=False)
+        param.data = param.data.to('cpu', non_blocking=False)
         if offload_grad and param.grad is not None:
-            param.grad = param.grad.to("cpu", non_blocking=True)
+            param.grad = param.grad.to("cpu", non_blocking=False)
     torch.cuda.empty_cache()
 
 
 def load_fsdp_param_and_grad(module, device_id, load_grad=False):
     for _, param in module.named_parameters():
         if hasattr(param, "_local_shard"):
-            param._local_shard = param._local_shard.to(device_id, non_blocking=True)
-        param.data = param.data.to(device_id, non_blocking=True)
+            param._local_shard = param._local_shard.to(device_id, non_blocking=False)
+        param.data = param.data.to(device_id, non_blocking=False)
         if load_grad and param.grad is not None:
-            param.grad = param.grad.to(device_id, non_blocking=True)
+            param.grad = param.grad.to(device_id, non_blocking=False)
     torch.cuda.empty_cache()
 
 
@@ -145,7 +145,7 @@ def offload_fsdp_optimizer(optimizer):
             state = optimizer.state[param]
             for key, value in state.items():
                 if isinstance(value, torch.Tensor):
-                    state[key] = value.to("cpu", non_blocking=True)
+                    state[key] = value.to("cpu", non_blocking=False)
     torch.cuda.empty_cache()
 
 
@@ -155,7 +155,7 @@ def load_fsdp_optimizer(optimizer, device_id):
             state = optimizer.state[param]
             for key, value in state.items():
                 if isinstance(value, torch.Tensor):
-                    state[key] = value.to(device_id, non_blocking=True)
+                    state[key] = value.to(device_id, non_blocking=False)
     torch.cuda.empty_cache()
 
 

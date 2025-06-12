@@ -266,7 +266,7 @@ class MegatronRewardModel(BasePPORewardModel):
         if self.device == 'cuda':
             for reward_model_module in self.reward_model_module:
                 for name, param in reward_model_module.named_parameters():
-                    param.data = param.data.to('cpu', non_blocking=True)
+                    param.data = param.data.to('cpu', non_blocking=False)
             self.device = 'cpu'
             torch.cuda.empty_cache()
 
@@ -274,5 +274,5 @@ class MegatronRewardModel(BasePPORewardModel):
         if self.device == 'cpu':
             for reward_model_module in self.reward_model_module:
                 for name, param in reward_model_module.named_parameters():
-                    param.data = param.data.to(torch.cuda.current_device(), non_blocking=True)
+                    param.data = param.data.to(torch.cuda.current_device(), non_blocking=False)
             self.device = 'cuda'

@@ -463,7 +463,9 @@ If I want to give the final answer, I should put the answer between <answer> and
             "topk": self.config.topk,
             "return_scores": True
         }
-        return requests.post(self.config.search_url, json=payload).json()
+        print("-----[debug]----- search_url is",self.config.search_url)
+        return requests.post(self.config.search_url, json=payload,
+                             proxies={"http": None, "https": None}).json()
 
     def _passages2string(self, retrieval_result):
         format_reference = ''

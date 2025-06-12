@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=0,1,2
+# export CUDA_VISIBLE_DEVICES=0,1,2
 # export HIP_VISIBLE_DEVICES=0,1,2
 export DATA_DIR='../data/nq_search'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
@@ -117,7 +117,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.log_prob_micro_batch_size=192 \
     actor_rollout_ref.rollout.tensor_model_parallel_size=1 \
     actor_rollout_ref.rollout.name=vllm \
-    actor_rollout_ref.rollout.gpu_memory_utilization=0.7 \
+    actor_rollout_ref.rollout.gpu_memory_utilization=0.5 \
     actor_rollout_ref.ref.log_prob_micro_batch_size=192 \
     actor_rollout_ref.ref.fsdp_config.param_offload=True \
     actor_rollout_ref.rollout.n_agent=1 \

@@ -227,14 +227,14 @@ def offload_megatron_param_and_grad(module_list: nn.ModuleList, offload_grad=Fal
     if hybrid_engine is not None:
         pp_rank = mpu.get_pipeline_model_parallel_rank()
         for buffer in hybrid_engine.memory_buffers[pp_rank].values():
-            buffer.data = buffer.data.to('cpu', non_blocking=True)
+            buffer.data = buffer.data.to('cpu', non_blocking=False)
         build_memory_reference_from_module(module_list, hybrid_engine.memory_buffers[pp_rank], maintain_weight=True)
     else:
         for module in module_list:
             for _, param in module.named_parameters():
-                param.data = param.data.to('cpu', non_blocking=True)
+                param.data = param.data.to('cpu', non_blocking=False)
                 if offload_grad and param.grad is not None:
-                    param.grad = param.grad.to("cpu", non_blocking=True)
+                    param.grad = param.grad.to("cpu", non_blocking=False)
     torch.cuda.empty_cache()
 
 
@@ -242,12 +242,12 @@ def load_megatron_param_and_grad(module_list: nn.ModuleList, device_id, load_gra
     if hybrid_engine is not None:
         pp_rank = mpu.get_pipeline_model_parallel_rank()
         for buffer in hybrid_engine.memory_buffers[pp_rank].values():
-            buffer.data = buffer.data.to(device_id, non_blocking=True)
+            buffer.data = buffer.data.to(device_id, non_blocking=False)
         build_memory_reference_from_module(module_list, hybrid_engine.memory_buffers[pp_rank], maintain_weight=True)
     else:
         for module in module_list:
             for _, param in module.named_parameters():
-                param.data = param.data.to(device_id, non_blocking=True)
+                param.data = param.data.to(device_id, non_blocking=False)
                 if load_grad and param.grad is not None:
-                    param.grad = param.grad.to(device_id, non_blocking=True)
+                    param.grad = param.grad.to(device_id, non_blocking=False)
     torch.cuda.empty_cache()
