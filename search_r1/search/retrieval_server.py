@@ -209,14 +209,31 @@ class BM25Retriever(BaseRetriever):
 class DenseRetriever(BaseRetriever):
     def __init__(self, config):
         super().__init__(config)
+        
+        
+        import random
+        random.seed(42)
+        np.random.seed(42)
+        torch.manual_seed(42)
+        torch.cuda.manual_seed_all(42)
+        # faiss.seed_rand(42)
+        
+        # 确保确定性计算
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+        
         self.index = faiss.read_index(self.index_path)
         print("-----[Debug]-----: read_index done ----------")
         if config.faiss_gpu:
             co = faiss.GpuMultipleClonerOptions()
             co.useFloat16 = True
             co.shard = True
-            import os
-            print(os.environ.get('HIP_VISIBLE_DEVICES', ''))
+            # co.use_raft = False
+            # co.storeTransposed = False
+            # co.usePrecomputed = True
+            # co.verbose = True
+            # import os
+            # print(os.environ.get('HIP_VISIBLE_DEVICES', ''))
             # assert 1==0
             # os.environ["HIP_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"  # Set your GPU devices
             self.index = faiss.index_cpu_to_all_gpus(self.index, co=co)
@@ -235,6 +252,7 @@ class DenseRetriever(BaseRetriever):
     def _search(self, query: str, num: int = None, return_score: bool = False):
         if num is None:
             num = self.topk
+        # print("\n\n\n-----[Debug]-----: query:", query)
         query_emb = self.encoder.encode(query)
         scores, idxs = self.index.search(query_emb, k=num)
         idxs = idxs[0]
@@ -255,6 +273,7 @@ class DenseRetriever(BaseRetriever):
         scores = []
         for start_idx in tqdm(range(0, len(query_list), self.batch_size), desc='Retrieval process: '):
             query_batch = query_list[start_idx:start_idx + self.batch_size]
+            # print("\n\n\n-----[Debug]-----: query_batch:", query_batch)
             batch_emb = self.encoder.encode(query_batch)
             batch_scores, batch_idxs = self.index.search(batch_emb, k=num)
             batch_scores = batch_scores.tolist()
@@ -262,13 +281,14 @@ class DenseRetriever(BaseRetriever):
 
             # load_docs is not vectorized, but is a python list approach
             flat_idxs = sum(batch_idxs, [])
+            # print("\n\n\n-----[Debug]-----: flat_idxs:", flat_idxs)
             batch_results = load_docs(self.corpus, flat_idxs)
             # chunk them back
             batch_results = [batch_results[i*num : (i+1)*num] for i in range(len(batch_idxs))]
             
             results.extend(batch_results)
             scores.extend(batch_scores)
-            
+            # print("\n\n\n-----[Debug]-----: results:", results)
             del batch_emb, batch_scores, batch_idxs, query_batch, flat_idxs, batch_results
             torch.cuda.empty_cache()
             
@@ -296,7 +316,7 @@ class Config:
     """
     def __init__(
         self, 
-        retrieval_method: str = "bm25", 
+        retrieval_method: str = "e5", 
         retrieval_topk: int = 10,
         index_path: str = "./index/bm25",
         corpus_path: str = "./data/corpus.jsonl",
@@ -389,7 +409,7 @@ if __name__ == "__main__":
         retrieval_model_path=args.retriever_model,
         retrieval_pooling_method="mean",
         retrieval_query_max_length=256,
-        retrieval_use_fp16=True,
+        retrieval_use_fp16=False,
         retrieval_batch_size=512,
     )
     print("instantiate retriever with config: ", config.__dict__)
