@@ -57,7 +57,7 @@ class RewardManager():
         already_print_data_sources = {}
         print("-----[Debug]----- begin reward computation ----------")
         print("-----[Debug]----- data_len",len(data))
-        print("-----[Debug]----- data[0]",data[0])
+        # print("-----[Debug]----- data[0]",data[0])
         for i in range(len(data)):
             data_item = data[i]  # DataProtoItem
 
@@ -175,6 +175,7 @@ def main_task(config):
     # instantiate tokenizer
     from verl.utils import hf_tokenizer
     tokenizer = hf_tokenizer(local_path)
+    # tokenizer.padding_side = 'left'  # set padding side to left for better performance
     # print("main_task 3")
     # define worker classes
     if config.actor_rollout_ref.actor.strategy == 'fsdp':
