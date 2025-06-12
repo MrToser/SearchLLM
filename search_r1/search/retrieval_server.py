@@ -216,9 +216,9 @@ class DenseRetriever(BaseRetriever):
             co.useFloat16 = True
             co.shard = True
             import os
-            print(os.environ.get('HIP_VISIBLE_DEVICES', ''))
+            print(os.environ.get('CUDA_VISIBLE_DEVICES', ''))
             # assert 1==0
-            # os.environ["HIP_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"  # Set your GPU devices
+            # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"  # Set your GPU devices
             self.index = faiss.index_cpu_to_all_gpus(self.index, co=co)
 
         self.corpus = load_corpus(self.corpus_path)

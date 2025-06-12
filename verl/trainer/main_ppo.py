@@ -115,19 +115,19 @@ def main(config):
         ray.init(ignore_reinit_error=True,
                  runtime_env={'env_vars': {'TOKENIZERS_PARALLELISM': 'false', 
                                            'NCCL_DEBUG': 'WARN',
-                                        #    'HIP_VISIBLE_DEVICES': '0,1,2,3,4,5,6,7',
+                                        #    'CUDA_VISIBLE_DEVICES': '0,1,2,3,4,5,6,7',
                                         #    'HSA_OVERRIDE_GFX_VERSION': 'gfx90a',
                                         #    'LD_LIBRARY_PATH': '/opt/rocm/lib:/opt/rocm/hip/lib:/opt/rocm/lib64:/opt/rocm/llvm/lib:/opt/rocm/openmp/lib:/opt/rocm/hsa/lib:/opt/rocm/hsa/lib64:/opt/rocm/comgr/lib:/opt/rocm/bin:/usr/local/cuda-11.8/lib64:/usr/local/cuda-11.8/include',
                                             }})
     # print(torch._C._cuda_init())
     import os
     # print("LD_LIBRARY_PATH:", os.environ.get("LD_LIBRARY_PATH"))
-    print("[debug] Task ENV:", os.environ.get("HIP_VISIBLE_DEVICES"))
+    print("[debug] Task ENV:", os.environ.get("CUDA_VISIBLE_DEVICES"))
     print("[debug] ray.cluster_resources() ",ray.cluster_resources())
     print("[debug] config is",config)
     ray.get(main_task.options(runtime_env={
                 'env_vars': {
-                # 'HIP_VISIBLE_DEVICES': '0,1,2,3,4,5,6,7',
+                # 'CUDA_VISIBLE_DEVICES': '0,1,2,3,4,5,6,7',
                 'NCCL_DEBUG': 'WARN',
                 'TOKENIZERS_PARALLELISM': 'false'
             }
@@ -137,9 +137,9 @@ def main(config):
 @ray.remote
 def main_task(config):
     import os
-    # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
-    os.environ["HIP_VISIBLE_DEVICES"] = "4,5,6"
-    # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
+    # print("[debug] Task ENV in main_task:", os.environ.get("CUDA_VISIBLE_DEVICES"))
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6"
+    # print("[debug] Task ENV in main_task:", os.environ.get("CUDA_VISIBLE_DEVICES"))
     def set_seed(seed):
         """
         Set random seeds for reproducibility.
