@@ -138,8 +138,8 @@ def main(config):
 def main_task(config):
     import os
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
-    os.environ["HIP_VISIBLE_DEVICES"] = "4,5,6"
-    # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
+    os.environ["HIP_VISIBLE_DEVICES"] = "2,3,4"
+    print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
     def set_seed(seed):
         """
         Set random seeds for reproducibility.

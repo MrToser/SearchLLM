@@ -88,7 +88,7 @@ class LLMGenerationManager:
             print(f"[WARNING] OBSERVATION TOO LONG, CONSIDER CHANGING YOUR CONFIG, {next_obs_ids.shape[1]} & {self.config.max_obs_length}")            
             print(f"-----[Debug]----- len(next_obs_ids): {next_obs_ids.shape[1]}")
             next_obs_ids = next_obs_ids[:, :self.config.max_obs_length]
-            assert 1==0
+            # assert 1==0
         return next_obs_ids
 
     def _update_rolling_state(self, rollings: DataProto, cur_responses: torch.Tensor, 
@@ -457,7 +457,7 @@ If I want to give the final answer, I should put the answer between <answer> and
         return [self._passages2string(result) for result in results]
 
     def _batch_search(self, queries):
-        print("-----[Debug]----- batch_search queries:", queries)
+        # print("-----[Debug]----- batch_search queries:", queries)
         payload = {
             "queries": queries,
             "topk": self.config.topk,
