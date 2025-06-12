@@ -8,7 +8,7 @@
 **/playground
 **/wandb
 searchllm_id_rsa
-
+sbatch/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
