@@ -138,7 +138,7 @@ def main(config):
 def main_task(config):
     import os
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
-    os.environ["HIP_VISIBLE_DEVICES"] = "2,3,4"
+    os.environ["HIP_VISIBLE_DEVICES"] = "2,3,4,5"
     print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
     def set_seed(seed):
         """
@@ -147,10 +147,10 @@ def main_task(config):
         Args:
             seed (int): The random seed to use
         """
-        torch.manual_seed(seed)
         np.random.seed(seed)
         random.seed(seed)
         torch.backends.cudnn.benchmark = False
+        os.environ['PYTHONHASHSEED'] = str(seed)
         torch.backends.cudnn.deterministic = True
         if torch.cuda.is_available():
             torch.cuda.manual_seed(seed)
