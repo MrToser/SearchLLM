@@ -7,7 +7,7 @@ import requests
 question = "Mike Barnett negotiated many contracts including which player that went on to become general manager of CSKA Moscow of the Kontinental Hockey League?"
 
 # Model ID and device setup
-model_id = "PeterJinGo/SearchR1-nq_hotpotqa_train-qwen2.5-7b-em-ppo"
+model_id = "/home/avnet/xiongjing/sjh/agent/Search-R1/verl_checkpoints/nq-search-r1-ppo-qwen2.5-3b-it-em-amd/actor/global_step_200"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 question = question.strip()
@@ -64,7 +64,7 @@ def search(query: str):
             "topk": 3,
             "return_scores": True
         }
-    results = requests.post("http://127.0.0.1:8000/retrieve", json=payload).json()['result']
+    results = requests.post("http://127.0.0.1:8002/retrieve", json=payload).json()['result']
                 
     def _passages2string(retrieval_result):
         format_reference = ''

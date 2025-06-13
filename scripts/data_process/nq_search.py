@@ -48,7 +48,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     data_source = 'nq'
-
+    # bamboogle/hotpotqa/2wikimultihopqa/musique
+    # triviaqa/popqa/nq
+    
     dataset = datasets.load_dataset('RUC-NLPIR/FlashRAG_datasets', 'nq')
 
     train_dataset = dataset['train']
@@ -89,6 +91,8 @@ if __name__ == '__main__':
     train_dataset = train_dataset.map(function=make_map_fn('train'), with_indices=True)
     test_dataset = test_dataset.map(function=make_map_fn('test'), with_indices=True)
 
+    
+    
     local_dir = args.local_dir
     hdfs_dir = args.hdfs_dir
 

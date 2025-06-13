@@ -333,13 +333,13 @@ class ActorRolloutRefWorker(Worker):
             self.rollout, self.rollout_sharding_manager = self._build_rollout()
 
         if self._is_ref:
-            self.ref_module_fsdp = self._build_model_optimizer(model_path=self.config.model.path,
-                                                               fsdp_config=self.config.ref.fsdp_config,
-                                                               optim_config=None,
-                                                               override_model_config=override_model_config,
-                                                               use_remove_padding=use_remove_padding,
-                                                               trust_remote_code=self.config.model.get(
-                                                                   'trust_remote_code', False))[0]
+            self.ref_module_fsdp = self._build_model_optimize(model_path=self.config.model.path,
+               fsdp_config=self.config.ref.fsdp_config,
+               optim_config=None,
+               override_model_config=override_model_config,
+               use_remove_padding=use_remove_padding,
+               trust_remote_code=self.config.model.get(
+                   'trust_remote_code', False))[0]
             if self._is_offload_param:
                 offload_fsdp_param_and_grad(module=self.ref_module_fsdp, offload_grad=self._is_offload_grad)
 
