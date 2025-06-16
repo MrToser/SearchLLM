@@ -260,7 +260,7 @@ class LLMGenerationManager:
             next_obs, dones, valid_action, is_search = self.execute_predictions(
                 responses_str, self.tokenizer.pad_token, active_mask
             )
-            max_idx, max_obs = max(enumerate(next_obs), key=lambda x: len(x[1]))
+            # max_idx, max_obs = max(enumerate(next_obs), key=lambda x: len(x[1]))
             # print(f"-----[Debug]----- longest_item: {next_obs[max_idx]}")
             # print(f"batch size: {len(next_obs)}, longest item: {next_obs[max_idx]}, response{responses_str[max_idx]}, obs {max_obs}")
             curr_active_mask = torch.tensor([not done for done in dones], dtype=torch.bool)

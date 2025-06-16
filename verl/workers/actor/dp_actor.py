@@ -259,7 +259,7 @@ class DataParallelPPOActor(BasePPOActor):
 
                 # compute policy loss
                 policy_loss = pg_loss - entropy_loss * entropy_coeff
-
+                
                 if self.config.use_kl_loss:
                     ref_log_prob = data['ref_log_prob']
                     # compute kl loss

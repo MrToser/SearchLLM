@@ -85,6 +85,7 @@ class RewardManager():
             score = compute_score_fn(solution_str=sequences_str, ground_truth=ground_truth, format_score=self.format_score)
 
             reward_tensor[i, valid_response_length - 1] = score
+            # print("-----[Debug]----- score is",score)
             # all_scores.append(score)
 
             if data_source not in already_print_data_sources:
