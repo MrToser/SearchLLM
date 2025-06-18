@@ -235,11 +235,15 @@ class ActorRolloutRefWorker(Worker):
             total_steps = optim_config.get('total_training_steps', 0)
             num_warmup_steps_ratio = optim_config.get('lr_warmup_steps_ratio', 0.)
             num_warmup_steps = int(num_warmup_steps_ratio * total_steps)
-
-            print(f'Total steps: {total_steps}, num_warmup_steps: {num_warmup_steps}')
+            warmup_direction = optim_config.get('lr_warmup_direction', 'up')
+            assert warmup_direction in {'up', 'down', 'cos'}, \
+                f"Invalid `lr_warmup_direction`: '{warmup_direction}', must be one of 'up', 'down', 'cos'."
+            print(f'Actor: Total steps: {total_steps}, num_warmup_steps: {num_warmup_steps}, lr_warmup_direction: {warmup_direction}')
 
             actor_lr_scheduler = get_constant_schedule_with_warmup(optimizer=actor_optimizer,
-                                                                   num_warmup_steps=num_warmup_steps)
+                                                                   num_warmup_steps=num_warmup_steps,
+                                                                   num_training_steps=total_steps,
+                                                                   warmup_direction=warmup_direction)
         else:
             actor_optimizer = None
             actor_lr_scheduler = None
@@ -673,13 +677,19 @@ class CriticWorker(Worker):
         total_steps = config.optim.get('total_training_steps', 0)
         num_warmup_steps_ratio = config.optim.get('lr_warmup_steps_ratio', 0.)
         num_warmup_steps = int(num_warmup_steps_ratio * total_steps)
+        
+        warmup_direction = config.optim.get('lr_warmup_direction', 'up')
+        assert warmup_direction in {'up', 'down', 'cos'}, \
+            f"Invalid `lr_warmup_direction`: '{warmup_direction}', must be one of 'up', 'down', 'cos'."
+        print(f'Critic: Total steps: {total_steps}, num_warmup_steps: {num_warmup_steps}, lr_warmup_direction: {warmup_direction}')
 
-        print(f'Total steps: {total_steps}, num_warmup_steps: {num_warmup_steps}')
-
+        warmup_direction = config.optim.get('lr_warmup_direction', 'up')
+        
         from verl.utils.torch_functional import get_constant_schedule_with_warmup
         critic_lr_scheduler = get_constant_schedule_with_warmup(optimizer=critic_optimizer,
-                                                                num_warmup_steps=num_warmup_steps)
-
+                                                                num_warmup_steps=num_warmup_steps,
+                                                                num_training_steps=total_steps,
+                                                                warmup_direction=warmup_direction)
         return critic_module, critic_optimizer, critic_lr_scheduler
 
     @register(dispatch_mode=Dispatch.ONE_TO_ALL)

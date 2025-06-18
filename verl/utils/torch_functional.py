@@ -422,12 +422,27 @@ def get_cosine_schedule_with_warmup(
 def get_constant_schedule_with_warmup(
     optimizer: Optimizer,
     num_warmup_steps: int,
+    num_training_steps: int,
     last_epoch: int = -1,
+    warmup_direction: str = 'up',
 ):
 
-    def lr_lambda(current_step):
+    def lr_lambda_up(current_step):
         return min(1, float(current_step) / float(max(1, num_warmup_steps)))
 
+    def lr_lambda_down(current_step):
+        if current_step < num_warmup_steps:
+            return float(current_step) / float(max(1, num_warmup_steps))
+        # 衰减部分（线性下降到0）
+        return max(
+            1e-9, 
+            float(num_training_steps - current_step) / float(max(1, num_training_steps - num_warmup_steps))
+        )
+
+    if warmup_direction == 'up':
+        lr_lambda = lr_lambda_up
+    elif warmup_direction == 'down':
+        lr_lambda = lr_lambda_down
     return LambdaLR(optimizer, lr_lambda, last_epoch)
 
 

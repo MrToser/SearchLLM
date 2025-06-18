@@ -892,6 +892,7 @@ class RayPPOTrainer(object):
 
         metrics.update({
             'state_tokens/total': loss_mask.sum().item(),
+            'state_tokens/total_per': loss_mask.sum().item()/ loss_mask.shape[0],
             'state_tokens/coverage': (loss_mask.sum() / response_mask.sum()).item(),
         })
         

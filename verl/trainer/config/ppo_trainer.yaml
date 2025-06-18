@@ -147,8 +147,8 @@ retriever:
   topk: 3
 
 algorithm:
-  gamma: 0.99
-  lam: 0.95
+  gamma: 1
+  lam: 1
   adv_estimator: gae
   no_think_rl: False
   kl_penalty: kl  # how to estimate kl divergence
@@ -175,3 +175,6 @@ trainer:
 
 max_turns: 10
 do_search: true
+
+searchllm:
+  api_model: glm-4-air-250414
