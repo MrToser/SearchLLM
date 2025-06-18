@@ -1,0 +1,36 @@
+raw: 与searchr1源码超参一致
+    现象记录：
+    actor：
+        actor的entropy_loss 稳定下降
+        gradnorm在后期出现了梯度爆炸
+        pg_clipfrac：逐步上升
+        pg_loss在后期出现非常大的值
+        ppo_kl开始很小，后期逐步不稳定——新分布背离旧分布的程度，更新幅度
+        后期训练崩溃
+    critic：
+        不存在梯度爆炸现象
+        advantages——前期优势相对稳定，后期优势变化幅度变大
+        kl——critic模型和参考模型的分歧程度，后期逐步变大
+        returns——蒙特卡洛式的 Q 值估计 变大， 一定程度说明”奖励崩塌“
+        rewards——后期逐步崩塌
+        score——后期奖励向0进发，奖励逐步崩塌
+        values——动作价值函数，相对正常，后期可能增大（由超参数而定）
+        vf-clip频率逐步降低
+        loss相对稳定
+        vf_explained_var——后期逐步接近于1，价值函数越来越能解释rewards的方差
+    envs：
+        finish_ratio：有稳定完成到不稳定
+        number_of_actions：轮数有变少趋势
+        number_of_valid_action：每条样本的平均有效action数目变少
+        number_of_valid_search：每条样本有效有效search的数目变少
+        ratio_of_valid_action：逐步变少
+
+0616: 相对于raw，修改了gae的超参，调整了
+    algorithm.gamma=0.99 
+    algorithm.lam=0.95 
+    前期训练比raw要更好，但是策略崩塌到来的更早
+0618: 
+    给critic和actor添加超参数 lr_warmup_direction
+        actor学习率逐步衰减，而不是warmup
+        critic保持不变
+    

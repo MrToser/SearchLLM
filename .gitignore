@@ -126,7 +126,4 @@ vllm/
 triton/
 verl_checkpoints/
 *.txt
-
-retrieval.txt
-retrieval_launch.txt
-test.txt
+!train_logs.txt

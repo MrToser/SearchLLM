@@ -75,7 +75,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     trainer.critic_warmup=0 \
     trainer.logger=['wandb'] \
     +trainer.val_only=False \
-    +trainer.val_before_train=True \
+    +trainer.val_before_train=False \
     trainer.default_hdfs_dir=null \
     trainer.n_gpus_per_node=4 \
     trainer.nnodes=1 \
@@ -90,4 +90,6 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     max_turns=2 \
     retriever.url="http://127.0.0.1:8002/retrieve" \
     retriever.topk=3 \
+    searchllm.api_model="glm-4-air-250414" \
+    searchllm.mode="base" \
     2>&1 | tee $EXPERIMENT_NAME.log

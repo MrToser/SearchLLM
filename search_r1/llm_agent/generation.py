@@ -9,7 +9,8 @@ from verl import DataProto
 from verl.utils.tracking import Tracking
 import shutil
 import requests
-
+from zhipuai import ZhipuAI
+from tqdm import tqdm
 @dataclass
 class GenerationConfig:
     max_turns: int
@@ -21,6 +22,7 @@ class GenerationConfig:
     no_think_rl: bool=False
     search_url: str = None
     topk: int = 3
+    searchllm_config = None
 
 class LLMGenerationManager:
     def __init__(
@@ -34,7 +36,8 @@ class LLMGenerationManager:
         self.actor_rollout_wg = actor_rollout_wg
         self.config = config
         self.is_validation = is_validation
-
+        self.searchllm_config = config.searchllm
+        
         self.tensor_fn = TensorHelper(TensorConfig(
             pad_token_id=tokenizer.pad_token_id,
             max_prompt_length=config.max_prompt_length,
@@ -378,7 +381,14 @@ class LLMGenerationManager:
         
         search_queries = [content for action, content in zip(cur_actions, contents) if action == 'search']
         if do_search:
-            search_results = self.batch_search(search_queries)
+            
+            if self.searchllm_config.mode == 'llm':
+                # Use LLM to generate search queries
+                search_queries = self.llm_search(search_queries,self.config.searchllm_config)
+
+            
+            else:
+                search_results = self.batch_search(search_queries)
             assert len(search_results) == sum([1 for action in cur_actions if action == 'search'])
         else:
             search_results = [''] * sum([1 for action in cur_actions if action == 'search'])
@@ -444,6 +454,29 @@ If I want to give the final answer, I should put the answer between <answer> and
             
         return actions, contents
 
+    def llm_search(self, queries: List[str], config) -> List[str]:
+        # LLM as search engine
+        api_model = config.api_model
+        api_key = config.api_key
+        llm_params = config.llm_params
+        results = []
+        for j in tqdm(range(len(queries)), total=len(queries), desc="remote_generation"):
+            message = [{"role": "user", "content": queries[j]}]
+            if "glm" in api_model: #zhipuai
+                try:
+                    client = ZhipuAI(api_key=api_key)  # 请填写您自己的APIKey
+                    response = client.chat.completions.create(
+                        messages=message,
+                        **llm_params,
+                    )
+                    output = response.choices[0].message.content
+                    output = '\n' + output + '\n'
+                    results.append(output)
+                except:
+                    self.fail_call_num += 1
+                    results.append("\nNo valid content was retrieved. Please answer yourself.\n")
+        return results
+              
     def batch_search(self, queries: List[str] = None) -> str:
         """
         Batchified search for queries.
