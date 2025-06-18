@@ -465,6 +465,7 @@ class RayPPOTrainer(object):
             no_think_rl=self.config.algorithm.no_think_rl,
             search_url = self.config.retriever.url,
             topk = self.config.retriever.topk,
+            searchllm_config=self.config.searchllm,
         )
 
         # Agent config preparation
@@ -804,7 +805,7 @@ class RayPPOTrainer(object):
 
                         # we combine with rule-based rm
                         reward_tensor = self.reward_fn(batch)
-                        print("-----[Debug]----- reward_tensor:", reward_tensor)
+                        # print("-----[Debug]----- reward_tensor:", reward_tensor)
                         # assert 1==0
                         batch.batch['token_level_scores'] = reward_tensor
 

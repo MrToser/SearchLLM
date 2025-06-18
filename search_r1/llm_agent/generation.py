@@ -3,7 +3,7 @@ import re
 from collections import defaultdict
 import os
 from typing import List, Dict, Any, Tuple
-from dataclasses import dataclass
+from dataclasses import dataclass,field
 from .tensor_helper import TensorHelper, TensorConfig
 from verl import DataProto
 from verl.utils.tracking import Tracking
@@ -11,6 +11,8 @@ import shutil
 import requests
 from zhipuai import ZhipuAI
 from tqdm import tqdm
+from typing import Any, Optional
+
 @dataclass
 class GenerationConfig:
     max_turns: int
@@ -22,7 +24,7 @@ class GenerationConfig:
     no_think_rl: bool=False
     search_url: str = None
     topk: int = 3
-    searchllm_config = None
+    searchllm_config: Optional[Any] = field(default=None)
 
 class LLMGenerationManager:
     def __init__(
@@ -36,7 +38,7 @@ class LLMGenerationManager:
         self.actor_rollout_wg = actor_rollout_wg
         self.config = config
         self.is_validation = is_validation
-        self.searchllm_config = config.searchllm
+        self.searchllm_config = config.searchllm_config
         
         self.tensor_fn = TensorHelper(TensorConfig(
             pad_token_id=tokenizer.pad_token_id,
@@ -384,7 +386,7 @@ class LLMGenerationManager:
             
             if self.searchllm_config.mode == 'llm':
                 # Use LLM to generate search queries
-                search_queries = self.llm_search(search_queries,self.config.searchllm_config)
+                search_results = self.llm_search(search_queries,self.config.searchllm_config)
 
             
             else:
@@ -461,7 +463,11 @@ If I want to give the final answer, I should put the answer between <answer> and
         llm_params = config.llm_params
         results = []
         for j in tqdm(range(len(queries)), total=len(queries), desc="remote_generation"):
-            message = [{"role": "user", "content": queries[j]}]
+            meta_prompt = f"Please provide a brief summary of the information regarding the following question" + \
+                        f" with the total length not exceeding 100 tokens."
+            question = meta_prompt + "\n" + queries[j]
+            print("question:", question)
+            message = [{"role": "user", "content": question}]
             if "glm" in api_model: #zhipuai
                 try:
                     client = ZhipuAI(api_key=api_key)  # 请填写您自己的APIKey
@@ -473,7 +479,7 @@ If I want to give the final answer, I should put the answer between <answer> and
                     output = '\n' + output + '\n'
                     results.append(output)
                 except:
-                    self.fail_call_num += 1
+                    # self.fail_call_num += 1
                     results.append("\nNo valid content was retrieved. Please answer yourself.\n")
         return results
               

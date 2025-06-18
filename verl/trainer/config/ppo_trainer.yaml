@@ -179,10 +179,10 @@ do_search: true
 searchllm:
   api_model: "glm-4-air-250414"
   api_key: "5161b244e73546668ecc3173f0373fc5.HW33ZuhWFYYiKHWo"
-  mode: llm
+  mode: base
   llm_params:
+    model: ${searchllm.api_model}
     top_p: 1.0
-    top_k: 40
     temperature: 0
     max_tokens: ${data.max_response_length}
     

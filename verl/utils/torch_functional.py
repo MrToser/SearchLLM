@@ -431,8 +431,6 @@ def get_constant_schedule_with_warmup(
         return min(1, float(current_step) / float(max(1, num_warmup_steps)))
 
     def lr_lambda_down(current_step):
-        if current_step < num_warmup_steps:
-            return float(current_step) / float(max(1, num_warmup_steps))
         # 衰减部分（线性下降到0）
         return max(
             1e-9, 
