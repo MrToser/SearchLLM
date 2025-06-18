@@ -115,7 +115,7 @@ def apply_kl_penalty(data: DataProto, kl_ctrl: core_algos.AdaptiveKLController, 
     kl_ctrl.update(current_kl=current_kl, n_steps=batch_size)
     data.batch['token_level_rewards'] = token_level_rewards
 
-    metrics = {'critic/kl': current_kl, 'critic/kl_coeff': beta}
+    metrics = {'actor/oldactor_ref_kl': current_kl, 'actor/kl_coeff': beta}
 
     return data, metrics
 
@@ -466,6 +466,7 @@ class RayPPOTrainer(object):
             search_url = self.config.retriever.url,
             topk = self.config.retriever.topk,
             searchllm_config=self.config.searchllm,
+            do_search=self.config.do_search,
         )
 
         # Agent config preparation
@@ -700,6 +701,7 @@ class RayPPOTrainer(object):
             search_url = self.config.retriever.url,
             topk = self.config.retriever.topk,
             searchllm_config=self.config.searchllm,
+            do_search=self.config.do_search,
         )
 
         generation_manager = LLMGenerationManager(
@@ -726,6 +728,7 @@ class RayPPOTrainer(object):
 
                 with _timer('step', timing_raw):
                     if not self.config.do_search:
+                        print(f'-----[Debug]----- begin run_llm_loop in not self.config.do_search')
                         gen_batch_output = self.actor_rollout_wg.generate_sequences(gen_batch)
 
                         batch.non_tensor_batch['uid'] = np.array([str(uuid.uuid4()) for _ in range(len(batch.batch))],

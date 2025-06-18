@@ -25,6 +25,7 @@ class GenerationConfig:
     search_url: str = None
     topk: int = 3
     searchllm_config: Optional[Any] = field(default=None)
+    do_search : bool = True
 
 class LLMGenerationManager:
     def __init__(
@@ -73,7 +74,7 @@ class LLMGenerationManager:
         if self.config.no_think_rl:
             raise ValueError('stop')
             # if no_think_rl is enabled, only keep action in the str
-            actions, _ = self.env.postprocess_predictions(responses_str)
+            actions, _ = self.postprocess_predictions(responses_str)
             responses_str=[f"<answer>{envs[idx].ACTION_LOOKUP[action]}</answer>" for idx, action in enumerate(actions)]
             print("RESPONSES:", responses_str)
         responses = self._batch_tokenize(responses_str)
@@ -263,7 +264,7 @@ class LLMGenerationManager:
             # Execute in environment and process observations
             # print(f"-----[Debug]----- responses_str before execute_predictions: {responses_str[0]}")
             next_obs, dones, valid_action, is_search = self.execute_predictions(
-                responses_str, self.tokenizer.pad_token, active_mask
+                responses_str, self.tokenizer.pad_token, active_mask,do_search=self.config.do_search
             )
             # max_idx, max_obs = max(enumerate(next_obs), key=lambda x: len(x[1]))
             # print(f"-----[Debug]----- longest_item: {next_obs[max_idx]}")
@@ -383,7 +384,6 @@ class LLMGenerationManager:
         
         search_queries = [content for action, content in zip(cur_actions, contents) if action == 'search']
         if do_search:
-            
             if self.searchllm_config.mode == 'llm':
                 # Use LLM to generate search queries
                 search_results = self.llm_search(search_queries,self.config.searchllm_config)
@@ -466,7 +466,7 @@ If I want to give the final answer, I should put the answer between <answer> and
             meta_prompt = f"Please provide a brief summary of the information regarding the following question" + \
                         f" with the total length not exceeding 100 tokens."
             question = meta_prompt + "\n" + queries[j]
-            print("question:", question)
+            # print("question:", question)
             message = [{"role": "user", "content": question}]
             if "glm" in api_model: #zhipuai
                 try:
@@ -476,7 +476,7 @@ If I want to give the final answer, I should put the answer between <answer> and
                         **llm_params,
                     )
                     output = response.choices[0].message.content
-                    output = '\n' + output + '\n'
+                    # output = '\n' + output + '\n'
                     results.append(output)
                 except:
                     # self.fail_call_num += 1
