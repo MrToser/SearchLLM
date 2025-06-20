@@ -728,7 +728,7 @@ class RayPPOTrainer(object):
 
                 with _timer('step', timing_raw):
                     if not self.config.do_search:
-                        print(f'-----[Debug]----- begin run_llm_loop in not self.config.do_search')
+                        print(f'-----[Debug]----- begin generate_sequences in not self.config.do_search')
                         gen_batch_output = self.actor_rollout_wg.generate_sequences(gen_batch)
 
                         batch.non_tensor_batch['uid'] = np.array([str(uuid.uuid4()) for _ in range(len(batch.batch))],

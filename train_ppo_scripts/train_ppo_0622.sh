@@ -1,5 +1,5 @@
 # export HIP_VISIBLE_DEVICES=2,3,4,5
-export HIP_VISIBLE_DEVICES=6,7
+export HIP_VISIBLE_DEVICES=4,5,6,7
 export DATA_DIR='data/nq_hotpotqa_train'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
@@ -16,7 +16,7 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='Qwen/Qwen2.5-3B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0618
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0620
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
@@ -30,17 +30,17 @@ export VLLM_ATTENTION_BACKEND=XFORMERS # vllm + qwen2-7b with flash_attn has som
 PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     \
     searchllm.api_model="glm-4-air-250414" \
-    searchllm.mode="llm" \
+    searchllm.mode="base" \
     \
     +trainer.val_only=False \
     +trainer.val_before_train=False \
-    trainer.n_gpus_per_node=2 \
+    trainer.n_gpus_per_node=4 \
     trainer.nnodes=1 \
-    actor_rollout_ref.rollout.gpu_memory_utilization=0.55 \
+    actor_rollout_ref.rollout.gpu_memory_utilization=0.7 \
     trainer.save_freq=100 \
     trainer.test_freq=50 \
     trainer.total_epochs=15 \
-    trainer.total_training_steps=300 \
+    trainer.total_training_steps=200 \
     \
     data.max_prompt_length=4096 \
     data.max_response_length=500 \
@@ -50,35 +50,36 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     \
     algorithm.adv_estimator=gae \
     algorithm.kl_ctrl.kl_coef=0.001 \
+    algorithm.gamma=1 \
+    algorithm.lam=0.999 \
     \
-    do_search=False \
-    actor_rollout_ref.actor.state_masking=False \
+    do_search=True \
+    actor_rollout_ref.actor.state_masking=True \
     \
-    data.train_batch_size=128 \
-    data.val_batch_size=1536 \
-    actor_rollout_ref.actor.ppo_mini_batch_size=64 \
+    data.train_batch_size=256 \
+    data.val_batch_size=1024 \
+    actor_rollout_ref.actor.ppo_mini_batch_size=128 \
     actor_rollout_ref.actor.ppo_micro_batch_size=64 \
-    actor_rollout_ref.rollout.log_prob_micro_batch_size=64 \
-    actor_rollout_ref.ref.log_prob_micro_batch_size=64 \
-    critic.ppo_mini_batch_size=64 \
-    critic.ppo_micro_batch_size=8 \
+    actor_rollout_ref.rollout.log_prob_micro_batch_size=128 \
+    actor_rollout_ref.ref.log_prob_micro_batch_size=128 \
+    critic.ppo_mini_batch_size=128 \
+    critic.ppo_micro_batch_size=16 \
     \
     actor_rollout_ref.actor.optim.lr=1e-6 \
-    actor_rollout_ref.actor.optim.lr_warmup_steps_ratio=0.285 \
-    +actor_rollout_ref.actor.optim.lr_warmup_direction="down" \
+    actor_rollout_ref.actor.optim.lr_warmup_steps_ratio=0.25 \
+    +actor_rollout_ref.actor.optim.lr_warmup_direction="warmup_decay" \
     critic.optim.lr=1e-5 \
-    critic.optim.lr_warmup_steps_ratio=0.015 \
-    +critic.optim.lr_warmup_direction="up" \
-    trainer.critic_warmup=0 \
+    critic.optim.lr_warmup_steps_ratio=0.15 \
+    +critic.optim.lr_warmup_direction="warmup_decay" \
+    trainer.critic_warmup=10 \
     \
     actor_rollout_ref.model.path=$BASE_MODEL \
     actor_rollout_ref.model.enable_gradient_checkpointing=True \
     actor_rollout_ref.model.use_remove_padding=True \
+    critic.model.use_remove_padding=True \
     \
     actor_rollout_ref.rollout.n_agent=1 \
     max_turns=2 \
-    \
-    critic.model.use_remove_padding=True \
     \
     actor_rollout_ref.actor.fsdp_config.param_offload=True \
     actor_rollout_ref.actor.fsdp_config.grad_offload=True \
@@ -103,7 +104,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     trainer.project_name=$WAND_PROJECT \
     trainer.experiment_name=$EXPERIMENT_NAME \
     trainer.default_hdfs_dir=null \
-    trainer.default_local_dir=verl_checkpoints/$EXPERIMENT_NAME \
+    trainer.default_local_dir=/home/avnet/mount_disk/sjh/SearchLLM/verl_checkpoints/$EXPERIMENT_NAME \
     retriever.url="http://127.0.0.1:8002/retrieve" \
     retriever.topk=3 \
     2>&1 | tee $EXPERIMENT_NAME.log

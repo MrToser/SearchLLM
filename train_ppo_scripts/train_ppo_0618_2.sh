@@ -1,5 +1,5 @@
 # export HIP_VISIBLE_DEVICES=2,3,4,5
-export HIP_VISIBLE_DEVICES=4,5,6,7
+export HIP_VISIBLE_DEVICES=6,7
 export DATA_DIR='data/nq_hotpotqa_train'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
@@ -16,7 +16,7 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='Qwen/Qwen2.5-3B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0620
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0618
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
@@ -30,11 +30,11 @@ export VLLM_ATTENTION_BACKEND=XFORMERS # vllm + qwen2-7b with flash_attn has som
 PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     \
     searchllm.api_model="glm-4-air-250414" \
-    searchllm.mode="base" \
+    searchllm.mode="llm" \
     \
     +trainer.val_only=False \
     +trainer.val_before_train=False \
-    trainer.n_gpus_per_node=4 \
+    trainer.n_gpus_per_node=2 \
     trainer.nnodes=1 \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.8 \
     trainer.save_freq=100 \
@@ -103,7 +103,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     trainer.project_name=$WAND_PROJECT \
     trainer.experiment_name=$EXPERIMENT_NAME \
     trainer.default_hdfs_dir=null \
-    trainer.default_local_dir=verl_checkpoints/$EXPERIMENT_NAME \
-    retriever.url="http://127.0.0.1:8002/retrieve" \
+        trainer.default_local_dir=/home/avnet/mount_disk/sjh/SearchLLM/verl_checkpoints/$EXPERIMENT_NAME \
+retriever.url="http://127.0.0.1:8002/retrieve" \
     retriever.topk=3 \
     2>&1 | tee $EXPERIMENT_NAME.log

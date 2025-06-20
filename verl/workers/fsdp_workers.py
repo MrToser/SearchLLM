@@ -236,8 +236,8 @@ class ActorRolloutRefWorker(Worker):
             num_warmup_steps_ratio = optim_config.get('lr_warmup_steps_ratio', 0.)
             num_warmup_steps = int(num_warmup_steps_ratio * total_steps)
             warmup_direction = optim_config.get('lr_warmup_direction', 'up')
-            assert warmup_direction in {'up', 'down', 'cos'}, \
-                f"Invalid `lr_warmup_direction`: '{warmup_direction}', must be one of 'up', 'down', 'cos'."
+            assert warmup_direction in {'up', 'down', 'cos', 'parabola', 'parabola_1', 'warmup_decay'}, \
+                f"Invalid `lr_warmup_direction`: '{warmup_direction}', must be one of 'up', 'down', 'cos', 'parabola'."
             print(f'Actor: Total steps: {total_steps}, num_warmup_steps: {num_warmup_steps}, lr_warmup_direction: {warmup_direction}')
 
             actor_lr_scheduler = get_constant_schedule_with_warmup(optimizer=actor_optimizer,
@@ -679,8 +679,8 @@ class CriticWorker(Worker):
         num_warmup_steps = int(num_warmup_steps_ratio * total_steps)
         
         warmup_direction = config.optim.get('lr_warmup_direction', 'up')
-        assert warmup_direction in {'up', 'down', 'cos'}, \
-            f"Invalid `lr_warmup_direction`: '{warmup_direction}', must be one of 'up', 'down', 'cos'."
+        assert warmup_direction in {'up', 'down', 'cos', 'parabola', 'parabola_1', 'warmup_decay'}, \
+            f"Invalid `lr_warmup_direction`: '{warmup_direction}', must be one of 'up', 'down', 'cos', 'parabola'."
         print(f'Critic: Total steps: {total_steps}, num_warmup_steps: {num_warmup_steps}, lr_warmup_direction: {warmup_direction}')
 
         warmup_direction = config.optim.get('lr_warmup_direction', 'up')

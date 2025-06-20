@@ -33,9 +33,19 @@ raw: 与searchr1源码超参一致
     1、给critic和actor添加超参数 lr_warmup_direction
         actor学习率逐步衰减，而不是warmup
         critic保持不变
-        train_ppo_0618_1
+        train_ppo_0618_1.sh 
     2、添加searchllm相关参数
         使用api llm作为搜索引擎 使用zhipu ai的glm-4-air-250414
         因为api llm只能单batch索引，为了训练达到一定的trade-off，减小了一些batch
+        对超参数整体进行了一定修改：最大步数设置为了300步，以及一些其他的超参数
         0618_2和0618_3的区别：一个do_search，一个没有do_search
+0621-0622:
+    1、想要复现出来0618的结果 train_ppo_0621.sh 区别是step步数变小，critic的warmup步数也同步变化
+    2、train_ppo_0622.sh——大杂烩，融入所有自己认为合理的操作
+        1）batch size变小,step变少
+        2）学习率模式改为warmup_decay
+        3）critic启动warmup，前几个回合不更新actor,critic_warmup=10
+        4）lr_warmup_steps_ratio 改为actor/critic 0.25/0.15
+        5）algorithm.lam=0.999 降低一些方差
+
     

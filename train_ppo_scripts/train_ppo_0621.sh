@@ -1,5 +1,5 @@
 # export HIP_VISIBLE_DEVICES=2,3,4,5
-export HIP_VISIBLE_DEVICES=4,5,6,7
+export HIP_VISIBLE_DEVICES=0,1,2,3
 export DATA_DIR='data/nq_hotpotqa_train'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
@@ -36,7 +36,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     +trainer.val_before_train=False \
     trainer.n_gpus_per_node=4 \
     trainer.nnodes=1 \
-    actor_rollout_ref.rollout.gpu_memory_utilization=0.8 \
+    actor_rollout_ref.rollout.gpu_memory_utilization=0.65 \
     trainer.save_freq=100 \
     trainer.test_freq=50 \
     trainer.total_epochs=15 \
@@ -50,35 +50,36 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     \
     algorithm.adv_estimator=gae \
     algorithm.kl_ctrl.kl_coef=0.001 \
+    algorithm.gamma=1 \
+    algorithm.lam=1 \
     \
     do_search=True \
     actor_rollout_ref.actor.state_masking=True \
     \
-    data.train_batch_size=128 \
+    data.train_batch_size=512 \
     data.val_batch_size=1536 \
-    actor_rollout_ref.actor.ppo_mini_batch_size=64 \
+    actor_rollout_ref.actor.ppo_mini_batch_size=256 \
     actor_rollout_ref.actor.ppo_micro_batch_size=64 \
-    actor_rollout_ref.rollout.log_prob_micro_batch_size=64 \
-    actor_rollout_ref.ref.log_prob_micro_batch_size=64 \
-    critic.ppo_mini_batch_size=64 \
+    actor_rollout_ref.rollout.log_prob_micro_batch_size=128 \
+    actor_rollout_ref.ref.log_prob_micro_batch_size=128 \
+    critic.ppo_mini_batch_size=256 \
     critic.ppo_micro_batch_size=8 \
     \
     actor_rollout_ref.actor.optim.lr=1e-6 \
     actor_rollout_ref.actor.optim.lr_warmup_steps_ratio=0.285 \
     +actor_rollout_ref.actor.optim.lr_warmup_direction="down" \
     critic.optim.lr=1e-5 \
-    critic.optim.lr_warmup_steps_ratio=0.015 \
+    critic.optim.lr_warmup_steps_ratio=0.05 \
     +critic.optim.lr_warmup_direction="up" \
     trainer.critic_warmup=0 \
     \
     actor_rollout_ref.model.path=$BASE_MODEL \
     actor_rollout_ref.model.enable_gradient_checkpointing=True \
     actor_rollout_ref.model.use_remove_padding=True \
+    critic.model.use_remove_padding=True \
     \
     actor_rollout_ref.rollout.n_agent=1 \
     max_turns=2 \
-    \
-    critic.model.use_remove_padding=True \
     \
     actor_rollout_ref.actor.fsdp_config.param_offload=True \
     actor_rollout_ref.actor.fsdp_config.grad_offload=True \
@@ -103,7 +104,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     trainer.project_name=$WAND_PROJECT \
     trainer.experiment_name=$EXPERIMENT_NAME \
     trainer.default_hdfs_dir=null \
-    trainer.default_local_dir=verl_checkpoints/$EXPERIMENT_NAME \
+    trainer.default_local_dir=/home/avnet/mount_disk/sjh/SearchLLM/verl_checkpoints/$EXPERIMENT_NAME \
     retriever.url="http://127.0.0.1:8002/retrieve" \
     retriever.topk=3 \
     2>&1 | tee $EXPERIMENT_NAME.log

@@ -88,7 +88,9 @@ class vLLMRollout(BaseRollout):
 
         assert model_hf_config.max_position_embeddings >= config.prompt_length + config.response_length, \
             "model context length should be greater than total sequence length"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
         self.inference_engine = LLM(actor_module,
+                                    device=device,
                                     tokenizer=tokenizer,
                                     model_hf_config=model_hf_config,
                                     tensor_parallel_size=tensor_parallel_size,

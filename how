@@ -1,0 +1,71 @@
+[33mcommit 0b2201da69294cbd4594a0ec222118163588ee8e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Sat Jun 21 00:53:54 2025 +0800
+
+    add 0620
+
+[33mcommit d18f714477779737830905bd21ba8a8acc72892e[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Wed Jun 18 21:35:04 2025 +0800
+
+    add do_search & change some params in train.sh
+
+[33mcommit 46c68c955093e32ab019720ce9757f466ffa8486[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Wed Jun 18 19:27:16 2025 +0800
+
+    add search llm & Regularize the parameters of train_ppo.sh
+
+[33mcommit 5c50def2c1f7ecb87ec60454a9295d9417239b56[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Wed Jun 18 17:20:07 2025 +0800
+
+    add searchllm
+
+[33mcommit 2706de38a96a8cc9f845f6b3b7630bafa798acd0[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Wed Jun 18 16:14:03 2025 +0800
+
+    add lr_warmup_direction
+
+[33mcommit 863f7998461f49cc571ce1fcafef675f8858c4f8[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Tue Jun 17 00:30:17 2025 +0800
+
+    a little change
+
+[33mcommit 89ebeeaa086a871df112bb02579daeec8e209343[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Fri Jun 13 13:24:54 2025 +0800
+
+    no change
+
+[33mcommit bf6ca00e7719fd37de11b99f89712f3b5a174627[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Fri Jun 13 00:16:03 2025 +0800
+
+    retriever is ok
+
+[33mcommit 236dfe99be88457cc60fd889ba55a0e205c1f42a[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Thu Jun 12 16:27:18 2025 +0800
+
+    nochange
+
+[33mcommit deb225f2be4cb0828ba0a147e98796f612eaace7[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Thu Jun 12 12:43:33 2025 +0800
+
+    no change
+
+[33mcommit 6b6b35f9195791da26d47a2e84faf7d5631734f9[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Wed Jun 11 14:30:49 2025 +0800
+
+    add trainlog in Qwen2.5-3b
+
+[33mcommit 91e5f20cfe54f9038839fc0568485525ff572f3c[m
+Author: Mrtoser <zxsjh888@163.com>
+Date:   Sun Jun 8 14:49:33 2025 +0800
+
+    Initial commit
