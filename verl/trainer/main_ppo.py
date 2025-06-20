@@ -139,7 +139,10 @@ def main(config):
 def main_task(config):
     import os
     # print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
-    os.environ["HIP_VISIBLE_DEVICES"] = "2,3,4,5"
+    os.environ["HIP_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
+    # os.environ["HSA_OVERRIDE_GFX_VERSION"] = "gfx90a"
+    # os.environ["ROCR_VISIBLE_DEVICES"] = "6,7"
+    # os.environ["LD_LIBRARY_PATH"] = "/opt/rocm-6.3.3/lib/"
     print("[debug] Task ENV in main_task:", os.environ.get("HIP_VISIBLE_DEVICES"))
     def set_seed(seed):
         """

@@ -437,10 +437,18 @@ def get_constant_schedule_with_warmup(
             float(num_training_steps - current_step) / float(max(1, num_training_steps - num_warmup_steps))
         )
 
+    def lr_lambda_parabola(current_step):
+        min_lr_ratio = 0.05
+        progress = min(current_step / num_training_steps, 1.0)
+        decay = 1 - (1.5*progress ** 2)
+        return max(min_lr_ratio, decay)
+    
     if warmup_direction == 'up':
         lr_lambda = lr_lambda_up
     elif warmup_direction == 'down':
         lr_lambda = lr_lambda_down
+    elif warmup_direction == 'parabola':
+        lr_lambda = lr_lambda_parabola
     return LambdaLR(optimizer, lr_lambda, last_epoch)
 
 
