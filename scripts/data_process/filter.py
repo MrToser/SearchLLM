@@ -16,6 +16,7 @@ Preprocess the QA dataset to parquet format
 """
 
 import re
+from tqdm import tqdm
 import os
 import datasets
 
@@ -25,25 +26,14 @@ import argparse
 from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-def make_prefix(dp, template_type):
-    question = dp['question']
-
-    # NOTE: also need to change reward_score/countdown.py
-    if template_type == 'base':
-        """This works for any base model"""
-        prefix = f"Could you tell me if you have enough knowledge to answer the following question? \
-Just tell me yes or no, don't answer the question. \
-\nQuestion: {question}\nAnswer: "
-    else:
-        raise NotImplementedError
-    return prefix
+from search_llm.utils import make_prefix
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--local_dir', default='./data/nq_search')
+    parser.add_argument('--local_dir', default='./data/nq_1_search')
     parser.add_argument('--hdfs_dir', default=None)
-    parser.add_argument('--template_type', type=str, default='base')
+    parser.add_argument('--template_type', type=str, default='first_filter')
     parser.add_argument('--data_sources', default='nq')
 
     args = parser.parse_args()
@@ -93,21 +83,20 @@ if __name__ == '__main__':
         train_dataset = train_dataset.map(function=make_map_fn('train'), with_indices=True)
         all_dataset.append(train_dataset)
     local_dir = args.local_dir
-    hdfs_dir = args.hdfs_dir
     all_train_dataset = datasets.concatenate_datasets(all_dataset)
     # 获得初筛的idx
     # 加载模型
-    llm = LLM(model="Qwen/Qwen2.5-3B-Instruct",tensor_parallel_size=1,gpu_memory_utilization=0.7)
+    llm = LLM(model="Qwen/Qwen2.5-3B-Instruct",tensor_parallel_size=1,gpu_memory_utilization=0.8)
     sampling_params = SamplingParams(
         temperature=0,
         top_p=1,
         max_tokens=256
     )
-    
-    batch_size = 128
+    print("len is ",len(all_train_dataset))
+    batch_size = 2048
     # 对数据集进行分批处理
     ids = []
-    for i in range(0, len(all_train_dataset), batch_size):
+    for i in tqdm(range(0, len(all_train_dataset), batch_size), desc="Processing batches"):
         batch = all_train_dataset[i:i + batch_size]
         prompts = [dp[0]['content'] for dp in batch['prompt']]
         # 使用模型生成回答
@@ -115,11 +104,13 @@ if __name__ == '__main__':
         for j, response in enumerate(responses):
             generated_text = response.outputs[0].text.strip().lower()
             if generated_text == 'yes':
-                ids.append(batch['id'][i*batch_size+j])
+                ids.append(batch['id'][j])
     print("ids of the questions that can be answered:", ids)
     print(len(ids))
     # 保存ids
-    with open(os.path.join(local_dir, 'ids.txt'), 'w') as f:
-        f.write(ids)
+    import json
+    os.makedirs(local_dir, exist_ok=True)
+    with open(os.path.join(local_dir, 'ids.json'), 'w') as f:
+        json.dump(ids, f)
 
     

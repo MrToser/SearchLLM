@@ -127,3 +127,5 @@ triton/
 verl_checkpoints/
 *.txt
 !train_logs.txt
+
+sbatch/
