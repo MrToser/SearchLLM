@@ -840,6 +840,18 @@ class RayPPOTrainer(object):
                     # implement critic warmup
                     if self.config.trainer.critic_warmup <= self.global_steps:
                         # update actor
+                        entropy_coeff_mode = self.config.actor_rollout_ref.actor.get('entropy_coeff_mode','base')
+                        current_step = self.global_steps
+                        if entropy_coeff_mode == 'down':
+                            entropy_coeff_coefficient = - (0.5/self.total_training_steps)*current_step + 1.5
+                            entropy_coeff = self.config.actor_rollout_ref.actor.raw_entropy_coeff
+                            entropy_coeff_coefficient = max(1, entropy_coeff_coefficient)
+                            self.config.actor_rollout_ref.actor.entropy_coeff = entropy_coeff_coefficient*entropy_coeff
+                            metrics.update({
+                                'actor/entropy_coeff': self.config.actor_rollout_ref.actor.entropy_coeff,
+                            })
+                        elif entropy_coeff_mode == 'base':
+                            pass
                         with _timer('update_actor', timing_raw):
                             if self.config.do_search and self.config.actor_rollout_ref.actor.state_masking:
                                 batch, metrics = self._create_loss_mask(batch, metrics)

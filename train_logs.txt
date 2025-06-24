@@ -39,13 +39,17 @@ raw: 与searchr1源码超参一致
         因为api llm只能单batch索引，为了训练达到一定的trade-off，减小了一些batch
         对超参数整体进行了一定修改：最大步数设置为了300步，以及一些其他的超参数
         0618_2和0618_3的区别：一个do_search，一个没有do_search
-0621-0622:
+0621-0624:
     1、想要复现出来0618的结果 train_ppo_0621.sh 区别是step步数变小，critic的warmup步数也同步变化
     2、train_ppo_0622.sh——大杂烩，融入所有自己认为合理的操作
-        1）batch size变小,step变少
-        2）学习率模式改为warmup_decay
-        3）critic启动warmup，前几个回合不更新actor,critic_warmup=10
-        4）lr_warmup_steps_ratio 改为actor/critic 0.25/0.15
+        1）batch size变小,step变少 step=200
+        2）学习率模式改为 actor/critic decay_fix/up 
+        3）critic启动warmup，前几个回合不更新actor,critic_warmup=10（与critic的warmup相对应）
+        4）lr_warmup_steps_ratio 改为actor/critic 0.25/0.05
         5）algorithm.lam=0.999 降低一些方差
-
+    3、0623相对于0622:
+        1）学习率模式改为 actor/critic decay_fix/decay_fix ————在100步就开始性能下降，模型偏离太多，失常
+    4、0624,添加 entropy_coeff_mode 参数 
+        1）前期值大 后期值小 loss 比重中： 前期权重大 后期权重小 ————性能提升缓慢（100步不如0622）
+        2）尝试 parabola_down_constant 
     

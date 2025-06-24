@@ -16,7 +16,7 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='Qwen/Qwen2.5-3B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0620
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0624-1
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
@@ -67,7 +67,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     \
     actor_rollout_ref.actor.optim.lr=1e-6 \
     actor_rollout_ref.actor.optim.lr_warmup_steps_ratio=0.25 \
-    +actor_rollout_ref.actor.optim.lr_warmup_direction="decay_fix" \
+    +actor_rollout_ref.actor.optim.lr_warmup_direction="parabola_down_constant" \
     critic.optim.lr=1e-5 \
     critic.optim.lr_warmup_steps_ratio=0.05 \
     +critic.optim.lr_warmup_direction="up" \

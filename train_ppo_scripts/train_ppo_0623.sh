@@ -1,5 +1,5 @@
 # export HIP_VISIBLE_DEVICES=2,3,4,5
-export HIP_VISIBLE_DEVICES=2,3,4,5
+export HIP_VISIBLE_DEVICES=0,1,6,7
 export DATA_DIR='data/nq_hotpotqa_train'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
@@ -16,7 +16,7 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='Qwen/Qwen2.5-3B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0620
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0623
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
@@ -70,7 +70,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     +actor_rollout_ref.actor.optim.lr_warmup_direction="decay_fix" \
     critic.optim.lr=1e-5 \
     critic.optim.lr_warmup_steps_ratio=0.05 \
-    +critic.optim.lr_warmup_direction="up" \
+    +critic.optim.lr_warmup_direction="decay_fix" \
     trainer.critic_warmup=10 \
     \
     actor_rollout_ref.model.path=$BASE_MODEL \

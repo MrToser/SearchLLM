@@ -1,4 +1,4 @@
-export HIP_VISIBLE_DEVICES=0,1,2,3
+export HIP_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 file_path=./datasets
 index_file=$file_path/e5_Flat.index
 corpus_file=$file_path/wiki-18.jsonl

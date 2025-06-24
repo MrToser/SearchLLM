@@ -502,7 +502,17 @@ If I want to give the final answer, I should put the answer between <answer> and
             "topk": self.config.topk,
             "return_scores": True
         }
-        return requests.post(self.config.search_url, json=payload).json()
+        for _ in range(100):
+            try:
+                my_respones = requests.post(self.config.search_url, json=payload).json()
+                break
+            except Exception as e:
+                print(f"Error in batch search: {e}")
+                my_respones = {'result':[[{'document': {'contents': " \n "}}] for _ in queries ]} 
+                import time
+                time.sleep(1)
+        return my_respones
+        # return requests.post(self.config.search_url, json=payload).json()
 
     def _passages2string(self, retrieval_result):
         format_reference = ''

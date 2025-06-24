@@ -245,7 +245,7 @@ class DataParallelPPOActor(BasePPOActor):
 
                 clip_ratio = self.config.clip_ratio
                 entropy_coeff = self.config.entropy_coeff
-
+                
                 # all return: (bsz, response_length) temperature不能为0
                 entropy, log_prob = self._forward_micro_batch(micro_batch=data, temperature=temperature)
 
@@ -260,6 +260,7 @@ class DataParallelPPOActor(BasePPOActor):
                 # compute policy loss
                 policy_loss = pg_loss - entropy_loss * entropy_coeff
                 
+                            
                 if self.config.use_kl_loss:
                     ref_log_prob = data['ref_log_prob']
                     # compute kl loss

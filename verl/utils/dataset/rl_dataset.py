@@ -87,7 +87,7 @@ class RLHFDataset(Dataset):
 
         self._download()
         self._read_files_and_tokenize()
-
+        
     def _download(self):
         from verl.utils.fs import copy_local_path_from_hdfs
         for i, parquet_file in enumerate(self.parquet_files):
@@ -106,12 +106,11 @@ class RLHFDataset(Dataset):
         # filter out too long prompts
         tokenizer = self.tokenizer
         prompt_key = self.prompt_key
-
+        
         # nvm if prompt is too long
         # self.dataframe = self.dataframe[self.dataframe.apply(lambda doc: len(
         #     tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True)) <= self.max_prompt_length,
-        #                                                      axis=1)]
-
+               
         print(f'filter dataset len: {len(self.dataframe)}')
 
     def __len__(self):
