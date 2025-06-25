@@ -388,7 +388,6 @@ class LLMGenerationManager:
                 # Use LLM to generate search queries
                 search_results = self.llm_search(search_queries,self.config.searchllm_config)
 
-            
             else:
                 search_results = self.batch_search(search_queries)
             assert len(search_results) == sum([1 for action in cur_actions if action == 'search'])

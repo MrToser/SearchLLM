@@ -50,6 +50,11 @@ raw: 与searchr1源码超参一致
     3、0623相对于0622:
         1）学习率模式改为 actor/critic decay_fix/decay_fix ————在100步就开始性能下降，模型偏离太多，失常
     4、0624,添加 entropy_coeff_mode 参数 
-        1）前期值大 后期值小 loss 比重中： 前期权重大 后期权重小 ————性能提升缓慢（100步不如0622）
-        2）尝试 parabola_down_constant 
+        1）前期值大 后期值小 loss 比重中： 前期权重大 后期权重小 ————性能提升缓慢（100步不如0622）0624-2
+            训练崩溃，偏离过多（猜测是比例系数一直变动引起的不稳定性）
+        2）尝试 parabola_down_constant 没有明显提升 0624-1
+        3）0625 entropy_coeff_mode up_down 先上升再下降 warmup步数
+
+0626
+    1、使用筛选后的数据集
     

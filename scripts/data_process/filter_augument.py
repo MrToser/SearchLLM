@@ -89,8 +89,8 @@ if __name__ == '__main__':
     # 加载模型
     llm = LLM(model="Qwen/Qwen2.5-3B-Instruct",tensor_parallel_size=1,gpu_memory_utilization=0.8)
     sampling_params = SamplingParams(
-        temperature=0,
-        top_p=1,
+        temperature=1,
+        top_p=0.95,
         max_tokens=256
     )
     print("len is ",len(all_train_dataset))
@@ -103,18 +103,21 @@ if __name__ == '__main__':
         batch = all_train_dataset[i:i + batch_size]
         prompts = [dp[0]['content'] for dp in batch['prompt']]
         # 使用模型生成回答
-        responses = llm.generate(prompts, sampling_params=sampling_params)
-        for j, response in enumerate(responses):
-            generated_text = response.outputs[0].text.strip().lower()
-            if generated_text == 'yes':
-                data_source = batch['data_source'][j]
-                ids[data_source].append(batch['id'][j])
+        max_turns = 5
+        for j in range(max_turns):
+            responses = llm.generate(prompts, sampling_params=sampling_params)
+            for j, response in enumerate(responses):
+                generated_text = response.outputs[0].text.strip().lower()
+                if generated_text == 'yes':
+                    data_source = batch['data_source'][j]
+                    if batch['id'][j] not in ids[data_source]:
+                        ids[data_source].append(batch['id'][j])
     # print("ids of the questions that can be answered:", ids)
-    # print(len(ids))
+    print(len(ids))
     # 保存ids
     import json
     os.makedirs(local_dir, exist_ok=True)
-    with open(os.path.join(local_dir, 'ids.json'), 'w') as f:
+    with open(os.path.join(local_dir, 'ids_augument.json'), 'w') as f:
         json.dump(ids, f)
 
     

@@ -22,22 +22,7 @@ import datasets
 from verl.utils.hdfs_io import copy, makedirs
 import argparse
 
-
-def make_prefix(dp, template_type):
-    question = dp['question']
-
-    # NOTE: also need to change reward_score/countdown.py
-    if template_type == 'base':
-        """This works for any base model"""
-        prefix = f"""Answer the given question. \
-You must conduct reasoning inside <think> and </think> first every time you get new information. \
-After reasoning, if you find you lack some knowledge, you can call a search engine by <search> query </search> and it will return the top searched results between <information> and </information>. \
-You can search as many times as your want. \
-If you find no further external knowledge needed, you can directly provide the answer inside <answer> and </answer>, without detailed illustrations. For example, <answer> Beijing </answer>. Question: {question}\n"""
-    else:
-        raise NotImplementedError
-    return prefix
-
+from search_llm.utils import make_prefix
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -45,13 +30,17 @@ if __name__ == '__main__':
     parser.add_argument('--hdfs_dir', default=None)
     parser.add_argument('--template_type', type=str, default='base')
     parser.add_argument('--data_sources', default='nq')
+    parser.add_argument('--difficulty', type=str, default='medium')
+    # parser.add_argument('--filter', action='store_true', help='Whether to filter the dataset based on ids')
+    parser.add_argument('--ids_file', type=str, default=None, help='Path to the filter ids file')
 
     args = parser.parse_args()
 
     # data_source = 'nq'
     data_sources = args.data_sources.split(',')
     all_dataset = []
-
+    difficulties = args.difficulty.split(',')
+    
     for data_source in data_sources:
 
         dataset = datasets.load_dataset('RUC-NLPIR/FlashRAG_datasets', data_source)
@@ -95,11 +84,36 @@ if __name__ == '__main__':
 
     local_dir = args.local_dir
     hdfs_dir = args.hdfs_dir
-
+    
+    # 只加载有效数据
+    import json
+    # if args.filter:
+    #     file_name = 'ids_augument_filter.json'
+    # else:
+    #     file_name = 'ids_augument.json'
+    with open(os.path.join(local_dir, args.ids_file), 'r') as f:
+        ids = json.load(f)
+    
+    # 筛选有效数据集
+    difficulty_name = ""
+    for difficulty in difficulties:
+        if difficulty == 'easy':
+            all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_1']) for ds in all_dataset]
+        elif difficulty == 'medium':
+            all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_2']) for ds in all_dataset]
+        elif difficulty == 'hard':
+            all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_3']) for ds in all_dataset]
+        else:
+            raise ValueError(f"Unknown difficulty level: {difficulty}")
+        difficulty_name+= f"_{difficulty}"
+    # if args.difficulty == 'medium':
+    #     all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_2']) for ds in all_dataset]
     all_train_dataset = datasets.concatenate_datasets(all_dataset)
-    all_train_dataset.to_parquet(os.path.join(local_dir, 'train.parquet'))
+    all_train_dataset.to_parquet(os.path.join(local_dir, 'train'+difficulty_name+'.parquet'))
 
+    print(f"Total number of training samples: {len(all_train_dataset)}")
+    # assert 1==0
+    
     if hdfs_dir is not None:
         makedirs(hdfs_dir)
-
         copy(src=local_dir, dst=hdfs_dir)

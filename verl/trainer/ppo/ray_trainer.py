@@ -842,8 +842,25 @@ class RayPPOTrainer(object):
                         # update actor
                         entropy_coeff_mode = self.config.actor_rollout_ref.actor.get('entropy_coeff_mode','base')
                         current_step = self.global_steps
+                        entropy_coeff_warmup_steps_ratio = self.config.actor_rollout_ref.actor.get('entropy_coeff_warmup_steps_ratio', 0.5)
+                        entropy_coeff_warmup_steps = int(self.total_training_steps * entropy_coeff_warmup_steps_ratio)
                         if entropy_coeff_mode == 'down':
-                            entropy_coeff_coefficient = - (0.5/self.total_training_steps)*current_step + 1.5
+                            entropy_coeff_warmup_steps = self.total_training_steps
+                            entropy_coeff_coefficient = - (0.5/entropy_coeff_warmup_steps)*current_step + 1.5
+                            entropy_coeff = self.config.actor_rollout_ref.actor.raw_entropy_coeff
+                            entropy_coeff_coefficient = max(1, entropy_coeff_coefficient)
+                            self.config.actor_rollout_ref.actor.entropy_coeff = entropy_coeff_coefficient*entropy_coeff
+                            metrics.update({
+                                'actor/entropy_coeff': self.config.actor_rollout_ref.actor.entropy_coeff,
+                            })
+                        elif entropy_coeff_mode == "up_down":
+                            ratio = 0.5
+                            entropy_coeff_coefficient_1 = ((0.2/ratio)/entropy_coeff_warmup_steps)*current_step + 1
+                            entropy_coeff_coefficient_2 = ((0.2/(1-ratio))*(1-current_step/entropy_coeff_warmup_steps)) + 1
+                            if current_step <= entropy_coeff_warmup_steps*ratio:
+                                entropy_coeff_coefficient = entropy_coeff_coefficient_1
+                            else:
+                                entropy_coeff_coefficient = entropy_coeff_coefficient_2
                             entropy_coeff = self.config.actor_rollout_ref.actor.raw_entropy_coeff
                             entropy_coeff_coefficient = max(1, entropy_coeff_coefficient)
                             self.config.actor_rollout_ref.actor.entropy_coeff = entropy_coeff_coefficient*entropy_coeff
@@ -894,6 +911,7 @@ class RayPPOTrainer(object):
                         val_metrics = self._validate()
                         pprint(f'Final validation metrics: {val_metrics}')
                         logger.log(data=val_metrics, step=self.global_steps)
+                        time.sleep(100)
                     return
                 
                 # increment global steps

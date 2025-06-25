@@ -16,43 +16,63 @@ Preprocess the QA dataset to parquet format
 """
 
 import re
-from tqdm import tqdm
 import os
 import datasets
 
 from verl.utils.hdfs_io import copy, makedirs
 import argparse
 
-from vllm import LLM, SamplingParams
-from transformers import AutoTokenizer, AutoModelForCausalLM
 
-from search_llm.utils import make_prefix
+def make_prefix(dp, template_type):
+    question = dp['question']
+
+    # NOTE: also need to change reward_score/countdown.py
+    if template_type == 'base':
+        """This works for any base model"""
+        prefix = f"""Answer the given question. \
+You must conduct reasoning inside <think> and </think> first every time you get new information. \
+After reasoning, if you find you lack some knowledge, you can call a search engine by <search> query </search> and it will return the top searched results between <information> and </information>. \
+You can search as many times as your want. \
+If you find no further external knowledge needed, you can directly provide the answer inside <answer> and </answer>, without detailed illustrations. For example, <answer> Beijing </answer>. Question: {question}\n"""
+    else:
+        raise NotImplementedError
+    return prefix
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--local_dir', default='./data/nq_1_search')
+    parser.add_argument('--local_dir', default='./data/nq_search')
     parser.add_argument('--hdfs_dir', default=None)
-    parser.add_argument('--template_type', type=str, default='first_filter')
+    parser.add_argument('--template_type', type=str, default='base')
     parser.add_argument('--data_sources', default='nq')
 
     args = parser.parse_args()
 
-    # data_source = 'nq'
     data_sources = args.data_sources.split(',')
     all_dataset = []
 
     for data_source in data_sources:
 
-        dataset = datasets.load_dataset('RUC-NLPIR/FlashRAG_datasets', data_source)
+        if data_source != 'strategyqa':
+            dataset = datasets.load_dataset('RUC-NLPIR/FlashRAG_datasets', data_source)
+        else:
+            dataset = datasets.load_dataset('json', data_files="/home/peterjin/mnt/data/strategyqa/test_correct.jsonl")
 
-        train_dataset = dataset['train']
-        
+        if 'test' in dataset:
+            print(f'Using the {data_source} test dataset...')
+            test_dataset = dataset['test']
+        elif 'dev' in dataset:
+            print(f'Using the {data_source} dev dataset...')
+            test_dataset = dataset['dev']
+        else:
+            print(f'Using the {data_source} train dataset...')
+            test_dataset = dataset['train']
+
+        # add a row to each data item that represents a unique id
         def make_map_fn(split):
+
             def process_fn(example, idx):
                 example['question'] = example['question'].strip()
-                # print("idx is:",idx)
-                # print("example is:", example['id'])
                 if example['question'][-1] != '?':
                     example['question'] += '?'
                 question = make_prefix(example, template_type=args.template_type)
@@ -80,41 +100,16 @@ if __name__ == '__main__':
 
             return process_fn
 
-        train_dataset = train_dataset.map(function=make_map_fn('train'), with_indices=True)
-        all_dataset.append(train_dataset)
-    local_dir = args.local_dir
-    all_train_dataset = datasets.concatenate_datasets(all_dataset)
-    # all_train_dataset = all_train_dataset.select(range(512))
-    # 获得初筛的idx
-    # 加载模型
-    llm = LLM(model="Qwen/Qwen2.5-3B-Instruct",tensor_parallel_size=1,gpu_memory_utilization=0.8)
-    sampling_params = SamplingParams(
-        temperature=0,
-        top_p=1,
-        max_tokens=256
-    )
-    print("len is ",len(all_train_dataset))
-    batch_size = 1024
-    # 对数据集进行分批处理
-    ids = {}
-    for data_source in data_sources:
-        ids[data_source] = []
-    for i in tqdm(range(0, len(all_train_dataset), batch_size), desc="Processing batches"):
-        batch = all_train_dataset[i:i + batch_size]
-        prompts = [dp[0]['content'] for dp in batch['prompt']]
-        # 使用模型生成回答
-        responses = llm.generate(prompts, sampling_params=sampling_params)
-        for j, response in enumerate(responses):
-            generated_text = response.outputs[0].text.strip().lower()
-            if generated_text == 'yes':
-                data_source = batch['data_source'][j]
-                ids[data_source].append(batch['id'][j])
-    # print("ids of the questions that can be answered:", ids)
-    # print(len(ids))
-    # 保存ids
-    import json
-    os.makedirs(local_dir, exist_ok=True)
-    with open(os.path.join(local_dir, 'ids.json'), 'w') as f:
-        json.dump(ids, f)
+        test_dataset = test_dataset.map(function=make_map_fn('test'), with_indices=True)
+        all_dataset.append(test_dataset)
 
-    
+    local_dir = args.local_dir
+    hdfs_dir = args.hdfs_dir
+
+    all_test_dataset = datasets.concatenate_datasets(all_dataset)
+    all_test_dataset.to_parquet(os.path.join(local_dir, 'test.parquet'))
+
+    if hdfs_dir is not None:
+        makedirs(hdfs_dir)
+
+        copy(src=local_dir, dst=hdfs_dir)
