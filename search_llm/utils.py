@@ -7,8 +7,8 @@ import re
 import requests 
 
 def make_prefix(dp, template_type):
+    # print("I am in")
     question = dp['question']
-
     # NOTE: also need to change reward_score/countdown.py
     if template_type == 'first_filter':
         """This works for any base model"""
@@ -17,6 +17,13 @@ Just tell me yes or no, don't answer the question. \
 \nQuestion: {question}\nAnswer: "
     elif template_type == 'second_filter':
         """This works for Qwen2.5-3B-Instruct"""
+        prefix = f"""You now need to answer the following question, and below are the rules you must follow.\n\
+You must conduct reasoning inside <think> and </think> first every time you get new information. \
+After reasoning, if you find some knowledge is lacking, tell me what you want to inquire about by using <search> and </search> and \
+immediately end reasoning. \
+You can inquire as many times as needed. \
+If you find that you can already answer the question, you must provide the final answer between <answer> and </answer>, without detailed illustrations. For example, <answer> Nanjing </answer>. Question: {question}\n"""
+    elif template_type == 'base':
         prefix = f"""Answer the given question. \
 You must conduct reasoning inside <think> and </think> first every time you get new information. \
 After reasoning, if you find you lack some knowledge, you can call a search engine by <search> query </search> and it will return the top searched results between <information> and </information>. \
@@ -33,6 +40,8 @@ def _example_level_pad(responses: torch.Tensor,
         """
         Pad responses for non-active examples with pad tokens.
         """
+        print("active_mask.sum():", active_mask.sum())
+        print("responses.shape:", responses.shape)
         assert active_mask.sum() == responses.shape[0]
         # Create masked responses tensor
         batch_size = active_mask.shape[0]
@@ -56,10 +65,10 @@ def _example_level_pad(responses: torch.Tensor,
 
 def _postprocess_responses(tokenizer, responses: torch.Tensor) -> torch.Tensor:
     """Process responses to stop at search operation or answer operation."""
-    # responses_str = tokenizer.batch_decode(
-    #     responses, 
-    #     skip_special_tokens=True
-    # )
+    responses_str = tokenizer.batch_decode(
+        responses, 
+        skip_special_tokens=True
+    )
 
     responses_str = [resp.split('</search>')[0] + '</search>'
              if '</search>' in resp 
@@ -67,8 +76,13 @@ def _postprocess_responses(tokenizer, responses: torch.Tensor) -> torch.Tensor:
              if '</answer>' in resp 
              else resp
              for resp in responses_str]
-    
-    return responses_str
+    responses = tokenizer(
+            responses_str, 
+            add_special_tokens=False, 
+            return_tensors='pt', 
+            padding="longest"
+    )['input_ids']
+    return responses,responses_str
 
 
 def postprocess_predictions(predictions: List[Any]) -> Tuple[List[int], List[bool]]:
@@ -109,15 +123,16 @@ def _batch_search(queries):
         "topk": 3,
         "return_scores": True
     }
-    for _ in range(100):
-        try:
-            my_respones = requests.post("http://127.0.0.1:8002/retrieve", json=payload).json()
-            break
-        except Exception as e:
-            print(f"Error in batch search: {e}")
-            my_respones = {'result':[[{'document': {'contents': " \n "}}] for _ in queries ]} 
-            import time
-            time.sleep(1)
+    my_respones = {'result':[[{'document': {'contents': " \n "}}] for _ in queries ]}
+    # for _ in range(100):
+    #     try:
+    #         my_respones = requests.post("http://127.0.0.1:8002/retrieve", json=payload).json()
+    #         break
+    #     except Exception as e:
+    #         print(f"Error in batch search: {e}")
+    #         my_respones = {'result':[[{'document': {'contents': " \n "}}] for _ in queries ]} 
+    #         import time
+    #         time.sleep(1)
     return my_respones
     
 def _passages2string(retrieval_result):
@@ -147,7 +162,7 @@ def batch_search(queries: List[str] = None) -> str:
 
 
 
-def execute_predictions(predictions: List[str], pad_token: str, active_mask=None) -> List[str]:
+def execute_predictions(predictions: List[str], pad_token: str, active_mask=None, do_search=True) -> List[str]:
         """
         Execute predictions across multiple environments.
         NOTE: the function is the actual `step` function in the environment
@@ -166,7 +181,8 @@ def execute_predictions(predictions: List[str], pad_token: str, active_mask=None
         
         search_queries = [content for action, content in zip(cur_actions, contents) if action == 'search']
         search_results = batch_search(search_queries)
-        
+        search_results = [''] * sum([1 for action in cur_actions if action == 'search'])
+
         for i, (action, active) in enumerate(zip(cur_actions, active_mask)):
             
             if not active:
@@ -197,6 +213,7 @@ If I want to give the final answer, I should put the answer between <answer> and
             
         return next_obs, dones, valid_action, is_search
 
+
 def _process_next_obs(tokenizer, next_obs: List[str],max_obs_length) -> torch.Tensor:
     """Process next observations from environment."""
     
@@ -208,8 +225,18 @@ def _process_next_obs(tokenizer, next_obs: List[str],max_obs_length) -> torch.Te
     )['input_ids']
 
     if next_obs_ids.shape[1] > max_obs_length:
-        print(f"[WARNING] OBSERVATION TOO LONG, CONSIDER CHANGING YOUR CONFIG, {next_obs_ids.shape[1]} & {self.config.max_obs_length}")            
+        print(f"[WARNING] OBSERVATION TOO LONG, CONSIDER CHANGING YOUR CONFIG, {next_obs_ids.shape[1]} & {512}")            
         print(f"-----[Debug]----- len(next_obs_ids): {next_obs_ids.shape[1]}")
         next_obs_ids = next_obs_ids[:, :max_obs_length]
         # assert 1==0
     return next_obs_ids
+
+def _update_prompt_state(queries , cur_responses: List[str], 
+                            next_obs_ids: List[str]):
+    """Update rolling state with new responses and observations."""
+    # Concatenate and handle padding        
+    new_rollings = []
+    for i,(query,cur_responses,next_obs_ids) in enumerate(zip(queries, cur_responses, next_obs_ids)):
+        new_rollings.append(query+cur_responses+next_obs_ids)
+    
+    return new_rollings
