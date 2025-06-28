@@ -71,6 +71,7 @@ if __name__ == '__main__':
     parser.add_argument('--hdfs_dir', default=None)
     parser.add_argument('--template_type', type=str, default='base')
     parser.add_argument('--data_sources', default='nq')
+    parser.add_argument('--second_filter', action='store_true', help='Whether to perform second filter')
 
     args = parser.parse_args()
 
@@ -240,9 +241,12 @@ if __name__ == '__main__':
         # responses = llm.generate(prompts, sampling_params=sampling_params)
         
         # 对rollout进行处理
-        eliminate_idx = eliminate_bad_samples(
-            raw_prompts, turns_stats, valid_action_stats, valid_search_stats, embed_model,prompts_ids,
-        )
+        if args.second_filter:
+            eliminate_idx = eliminate_bad_samples(
+                raw_prompts, turns_stats, valid_action_stats, valid_search_stats, embed_model,prompts_ids,
+            )
+        else:
+            eliminate_idx = []
         # print("wrong samples:",  )
         
         # 搜索一次的
@@ -277,7 +281,11 @@ if __name__ == '__main__':
         print(f"Search 2 count: {len(new_ids[data_source]['search_2'])}")
         print(f"Search 3 count: {len(new_ids[data_source]['search_3'])}")
     import json
-    with open(os.path.join(local_dir, 'ids_augument_second_filter.json'), 'w') as f:
+    if args.second_filter:
+        file_name = 'ids_augument_filter_2_divide.json'
+    else:
+        file_name = 'ids_augument_divide.json'
+    with open(os.path.join(local_dir, file_name), 'w') as f:
         json.dump(new_ids, f)
 
     

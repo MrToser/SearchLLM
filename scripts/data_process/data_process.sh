@@ -1,7 +1,8 @@
 export PYTHONPATH=$PYTHONPATH:/home/avnet/xiongjing/sjh/agent/Search-R1
 IDS_NAME=ids_augument_filter_2_divide
+DIFFICULTY=easy # easy,medium,hard
 WORK_DIR=/home/avnet/xiongjing/sjh/agent/Search-R1
-LOCAL_DIR="${WORK_DIR}/data/${IDS_NAME}"
+LOCAL_DIR="${WORK_DIR}/data/${IDS_NAME}_${DIFFICULTY}"
 IDS_DIR=$WORK_DIR/data/ids
 export HIP_VISIBLE_DEVICES=2
 export TOKENIZERS_PARALLELISM=false
@@ -11,7 +12,7 @@ IDS_FILE="${IDS_DIR}/${IDS_NAME}.json"
 DATA=nq,hotpotqa
 python $WORK_DIR/scripts/data_process/qa_search_train_merge.py \
     --local_dir $LOCAL_DIR --data_sources $DATA \
-    --difficulty medium --ids_file $IDS_FILE \
+    --difficulty $DIFFICULTY --ids_file $IDS_FILE \
 
 ## process multiple dataset search format test file
 DATA=bamboogle,musique

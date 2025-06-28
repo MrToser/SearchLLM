@@ -445,6 +445,14 @@ class RayPPOTrainer(object):
         with open_dict(self.config):
             self.config.actor_rollout_ref.actor.optim.total_training_steps = total_training_steps
             self.config.critic.optim.total_training_steps = total_training_steps
+            self.config.trainer.total_training_steps = total_training_steps
+            
+            # critic warmup 和 学习率的warmup同步
+            num_warmup_steps_ratio = self.config.critic.optim.get('lr_warmup_steps_ratio', 0.)
+            num_warmup_steps = int(num_warmup_steps_ratio * total_training_steps)
+            self.config.trainer.critic_warmup = num_warmup_steps
+            
+            
 
     def _validate(self):
         """
@@ -636,6 +644,21 @@ class RayPPOTrainer(object):
         self.actor_rollout_wg = all_wg['actor_rollout']
         self.actor_rollout_wg.init_model()
 
+    def _save_checkpoint_final(self):
+        actor_local_path = os.path.join(self.config.trainer.default_local_dir, 'actor',
+                                        f'final')
+        actor_remote_path = None if self.config.trainer.default_hdfs_dir is None else os.path.join(
+            self.config.trainer.default_hdfs_dir, 'actor')
+        self.actor_rollout_wg.save_checkpoint(actor_local_path, actor_remote_path)
+
+        if self.use_critic:
+            critic_local_path = os.path.join(self.config.trainer.default_local_dir, 'critic',
+                                             f'final')
+            critic_remote_path = None if self.config.trainer.default_hdfs_dir is None else os.path.join(
+                self.config.trainer.default_hdfs_dir, 'critic')
+            self.critic_wg.save_checkpoint(critic_local_path, critic_remote_path)
+
+    
     def _save_checkpoint(self):
         actor_local_path = os.path.join(self.config.trainer.default_local_dir, 'actor',
                                         f'global_step_{self.global_steps}')
@@ -887,6 +910,10 @@ class RayPPOTrainer(object):
                             self.global_steps % self.config.trainer.save_freq == 0:
                         with _timer('save_checkpoint', timing_raw):
                             self._save_checkpoint()
+                    
+                    if self.global_steps == self.total_training_steps:
+                        print(f'-----[Debug]----- begin save final checkpoint')
+                        self._save_checkpoint_final()
 
                 # collect metrics
                 metrics.update(compute_data_metrics(batch=batch, use_critic=self.use_critic))

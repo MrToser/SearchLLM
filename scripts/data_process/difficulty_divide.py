@@ -27,7 +27,7 @@ from vllm import LLM, SamplingParams
 from transformers import AutoTokenizer, AutoModelForCausalLM
 # from scripts.data_process.utils import make_prefix
 from search_llm.utils import make_prefix,_postprocess_responses,_example_level_pad,execute_predictions, \
-    _process_next_obs,_update_prompt_state
+    _process_next_obs,_update_prompt_state,eliminate_bad_samples
 import torch
 
 def make_map_fn(split):
@@ -81,23 +81,24 @@ if __name__ == '__main__':
     for data_source in data_sources:
         dataset = datasets.load_dataset('RUC-NLPIR/FlashRAG_datasets', data_source)
         train_dataset = dataset['train']
-        train_dataset = train_dataset.map(function=make_map_fn('train'), with_indices=True,load_from_cache_file=True)
+        train_dataset = train_dataset.map(function=make_map_fn('train'), with_indices=True,load_from_cache_file=False)
         all_dataset.append(train_dataset)
     local_dir = args.local_dir
-    with open(os.path.join(local_dir, 'ids.json'), 'r') as f:
+    with open(os.path.join(local_dir, 'ids_augument.json'), 'r') as f:
         ids = json.load(f)
     # 只保留非idx部分
     all_dataset = [ds.filter(lambda x: x['id'] not in ids[x['data_source']]) for ds in all_dataset]
     all_train_dataset = datasets.concatenate_datasets(all_dataset)
     print("len after filter is ", len(all_train_dataset))
+    # assert 1==0
     # all_train_dataset = all_train_dataset.shuffle(seed=42)
-    # all_train_dataset = all_train_dataset.select(range(1))  # 仅选取前1000条数据进行测试
+    # all_train_dataset = all_train_dataset.select(range(100))  # 仅选取前1000条数据进行测试
     # assert 1==0
     # 进一步进行筛选 根据search频率
     llm = LLM(model="Qwen/Qwen2.5-3B-Instruct",
               tensor_parallel_size=1,
-              max_model_len=4096,
-              gpu_memory_utilization=0.8)
+              gpu_memory_utilization=0.7,
+              max_model_len=4096)
     sampling_params = SamplingParams(
         temperature=0,
         top_p=1,
@@ -106,10 +107,13 @@ if __name__ == '__main__':
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-3B-Instruct")
     tokenizer.pad_token_id = tokenizer.eos_token_id
     print("len is ",len(all_train_dataset))
-    batch_size = 256
+    batch_size = 512
     # new_all_train_dataset = all_train_dataset[0:512]
     # 对数据集进行分批处理
     new_ids = {}
+    from sentence_transformers import SentenceTransformer
+    embed_model = SentenceTransformer('jinaai/jina-embeddings-v3',trust_remote_code=True).to("cuda:1")
+    
     for data_source in data_sources:
         new_ids[data_source] = {
             'search_1': [],
@@ -135,7 +139,8 @@ if __name__ == '__main__':
         print(f'-----[Debug]----- begin generation loop')
         max_turns = 5
         for step in range(max_turns):
-            print("step:", step)
+            # print("step:", step)
+            # print(f"\nstep {step}: \nraw_prompts",raw_prompts)
             if not active_mask.sum():
                 break
             # actibe_mask 纬度始终为batch_size
@@ -180,7 +185,7 @@ if __name__ == '__main__':
             # 更新raw_prompts
             for j, idx in enumerate(prompts_index_active):
                 raw_prompts[idx] = new_prompts[j]
-            # print("\nraw_prompts",raw_prompts)
+            
         
         print(f"-----[Debug]----- end generation")
         # final LLM rollout
@@ -213,7 +218,15 @@ if __name__ == '__main__':
             active_num_list.append(active_mask.sum().item())
             valid_action_stats += torch.tensor(valid_action, dtype=torch.int)
             valid_search_stats += torch.tensor(is_search, dtype=torch.int)
-            
+        
+            new_prompts = _update_prompt_state(
+                prompts,
+                responses_str,
+                ['']*(len(prompts)),
+            )
+            # 更新raw_prompts
+            for j, idx in enumerate(prompts_index_active):
+                raw_prompts[idx] = new_prompts[j]    
         
         meta_info['turns_stats'] = turns_stats.tolist()
         meta_info['active_mask'] = active_mask.tolist()
@@ -226,23 +239,38 @@ if __name__ == '__main__':
         print("valid_search_stats:", meta_info['valid_search_stats'])
         # responses = llm.generate(prompts, sampling_params=sampling_params)
         
+        # 对rollout进行处理
+        # eliminate_idx = eliminate_bad_samples(
+        #     raw_prompts, turns_stats, valid_action_stats, valid_search_stats, embed_model,prompts_ids,
+        # )
+        eliminate_idx = []
+        # print("wrong samples:",  )
+        
         # 搜索一次的
-        indices = (valid_search_stats <= 1 ).nonzero().squeeze()
+        indices = (valid_search_stats <= 1 ).nonzero(as_tuple=False)
+        # print("indices:", indices)
         # print(len(indices))
-        if indices.shape[0] > 0:
-            for idx in indices.tolist():
-                new_ids[prompts_data_source[idx]]['search_1'].append(prompts_ids[idx])
-        # 搜索二次的
-        indices = ((valid_search_stats > 1 )&(valid_search_stats <= 3)).nonzero().squeeze()
+        if indices.numel() > 0:
+            for idx_tensor in indices:
+                idx = idx_tensor.item()
+                if prompts_ids[idx] not in eliminate_idx:
+                    new_ids[prompts_data_source[idx]]['search_1'].append(prompts_ids[idx])
+        # 搜索2到3次的
+        indices = ((valid_search_stats > 1 )&(valid_search_stats <= 3)).nonzero(as_tuple=False)
         # print(len(indices))
-        if indices.shape[0] > 0:
-            for idx in indices.tolist():
-                new_ids[prompts_data_source[idx]]['search_2'].append(prompts_ids[idx])
-        # 搜索三次的
-        indices = (valid_search_stats > 3).nonzero().squeeze()
-        if indices.shape[0] > 0:
-            for idx in indices.tolist():
-                new_ids[prompts_data_source[idx]]['search_3'].append(prompts_ids[idx])
+        if indices.numel() > 0:
+            for idx_tensor in indices:
+                idx = idx_tensor.item()
+                if prompts_ids[idx] not in eliminate_idx:
+                    new_ids[prompts_data_source[idx]]['search_2'].append(prompts_ids[idx])
+        # 搜索3次以上的
+        indices = (valid_search_stats > 3).nonzero(as_tuple=False)
+        # print(len(indices))
+        if indices.numel() > 0:
+            for idx_tensor in indices:
+                idx = idx_tensor.item()
+                if prompts_ids[idx] not in eliminate_idx:
+                    new_ids[prompts_data_source[idx]]['search_3'].append(prompts_ids[idx])
     # print("new_ids:", new_ids)
     for data_source in data_sources:
         print(f"\nData source: {data_source}")
@@ -250,7 +278,7 @@ if __name__ == '__main__':
         print(f"Search 2 count: {len(new_ids[data_source]['search_2'])}")
         print(f"Search 3 count: {len(new_ids[data_source]['search_3'])}")
     import json
-    with open(os.path.join(local_dir, 'new_ids.json'), 'w') as f:
+    with open(os.path.join(local_dir, 'ids_augument_second_filter.json'), 'w') as f:
         json.dump(new_ids, f)
 
     
