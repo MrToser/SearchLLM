@@ -33,7 +33,8 @@ if __name__ == '__main__':
     parser.add_argument('--difficulty', type=str, default='medium')
     # parser.add_argument('--filter', action='store_true', help='Whether to filter the dataset based on ids')
     parser.add_argument('--ids_file', type=str, default=None, help='Path to the filter ids file')
-
+    
+    
     args = parser.parse_args()
 
     # data_source = 'nq'
@@ -85,6 +86,9 @@ if __name__ == '__main__':
     local_dir = args.local_dir
     hdfs_dir = args.hdfs_dir
     
+    # if args.filter:
+    #     all_dataset = [ds.filter(lambda x: x['data_source'] in data_sources) for ds in all_dataset]
+    
     # 只加载有效数据
     import json
     # if args.filter:
@@ -95,24 +99,39 @@ if __name__ == '__main__':
         ids = json.load(f)
     
     # 筛选有效数据集
+    # if len(difficulties) == 1 and difficulties[0] == 'None':
+    #     new_all_dataset = []
+    # else:
+    new_all_dataset=[]
     difficulty_name = ""
     for difficulty in difficulties:
         if difficulty == 'easy':
-            all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_1']) for ds in all_dataset]
+            easy_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_1']) for ds in all_dataset]
+            new_all_dataset.extend(easy_dataset)
+            print("len easy dataset: ", sum(len(ds) for ds in easy_dataset))
         elif difficulty == 'medium':
-            all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_2']) for ds in all_dataset]
+            medium_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_2']) for ds in all_dataset]
+            new_all_dataset.extend(medium_dataset)
+            print("len medium_dataset: ", sum(len(ds) for ds in medium_dataset))
         elif difficulty == 'hard':
-            all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_3']) for ds in all_dataset]
+            hard_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_3']) for ds in all_dataset]
+            new_all_dataset.extend(hard_dataset)
+            print("len hard_dataset: ", sum(len(ds) for ds in hard_dataset))
+        elif difficulty == 'None':
+            new_all_dataset.extend([ds.filter(lambda x: x['id'] not in ids[x['data_source']]) for ds in all_dataset])
+        elif difficulty == 'filter_0':
+            new_all_dataset.extend([ds.filter(lambda x: x['id'] in ids[x['data_source']]) for ds in all_dataset])
         else:
             raise ValueError(f"Unknown difficulty level: {difficulty}")
         difficulty_name+= f"_{difficulty}"
     # if args.difficulty == 'medium':
     #     all_dataset = [ds.filter(lambda x: x['id'] in ids[x['data_source']]['search_2']) for ds in all_dataset]
-    all_train_dataset = datasets.concatenate_datasets(all_dataset)
-    all_train_dataset.to_parquet(os.path.join(local_dir, 'train'+difficulty_name+'.parquet'))
-
+    all_train_dataset = datasets.concatenate_datasets(new_all_dataset)
+    print("output file: ", os.path.join(local_dir, 'train'+difficulty_name+'.parquet'))
     print(f"Total number of training samples: {len(all_train_dataset)}")
     # assert 1==0
+    all_train_dataset.to_parquet(os.path.join(local_dir, 'train'+difficulty_name+'.parquet'))
+    
     
     if hdfs_dir is not None:
         makedirs(hdfs_dir)

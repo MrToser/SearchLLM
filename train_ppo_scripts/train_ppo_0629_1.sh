@@ -1,6 +1,6 @@
-# export HIP_VISIBLE_DEVICES=2,3,4,5
+export HIP_VISIBLE_DEVICES=2,3,4,5
 export HIP_VISIBLE_DEVICES=0,1,6,7
-export DATA_DIR='data/ids_augument_filter_2_divide_easy'
+export DATA_DIR='data/ids_augument_None'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
 # 39086条数据
@@ -19,7 +19,7 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='Qwen/Qwen2.5-3B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0628-easy
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0629-1
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
@@ -36,7 +36,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     searchllm.api_model="glm-4-air-250414" \
     searchllm.mode="base" \
     \
-    data.train_files=$DATA_DIR/train_easy.parquet \
+    data.train_files=$DATA_DIR/train_None.parquet \
     data.val_files=$DATA_DIR/test.parquet \
     +trainer.val_only=False \
     +trainer.val_before_train=False \
@@ -45,7 +45,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.6 \
     trainer.save_freq=100 \
     trainer.test_freq=20 \
-    trainer.total_epochs=2 \
+    trainer.total_epochs=15 \
     trainer.total_training_steps=200 \
     \
     data.max_prompt_length=4096 \

@@ -108,6 +108,7 @@ if __name__ == '__main__':
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-3B-Instruct")
     tokenizer.pad_token_id = tokenizer.eos_token_id
     print("len is ",len(all_train_dataset))
+    
     batch_size = 512
     # new_all_train_dataset = all_train_dataset[0:512]
     # 对数据集进行分批处理

@@ -15,15 +15,15 @@ def make_prefix(dp, template_type):
         prefix = f"Could you tell me if you have enough knowledge to answer the following question? \
 Just tell me yes or no, don't answer the question. \
 \nQuestion: {question}\nAnswer: "
-#     elif template_type == 'second_filter':
-#         """This works for Qwen2.5-3B-Instruct"""
-#         prefix = f"""You now need to answer the following question, and below are the rules you must follow.\n\
-# You must conduct reasoning inside <think> and </think> first every time you get new information. \
-# After reasoning, if you find some knowledge is lacking, tell me what you want to inquire about by using <search> and </search> and \
-# immediately end reasoning. \
-# You can inquire as many times as needed. \
-# If you find that you can already answer the question, you must provide the final answer between <answer> and </answer>, without detailed illustrations. For example, <answer> Nanjing </answer>. Question: {question}\n"""
-#     elif template_type == 'searchllm':
+    elif template_type == 'second_filter':
+        """This works for Qwen2.5-3B-Instruct"""
+        prefix = f"""You are required to answer the following question, following the rules below.\n\
+You must reason step by step inside <think> and </think> whenever you receive new information. \
+If you realize that some information is missing, specify your inquiry using <ask> and </ask>, and immediately stop reasoning. \
+You will then receive additional content enclosed in <information> and </information> to assist you. \
+You may repeat this inquiry process as many times as needed. \
+Once you are confident in your answer, provide the final result within <answer> and </answer>, without additional explanation. For example: <answer> Nanjing </answer>. Question: {question}\n"""    
+    # elif template_type == 'searchllm': raw
 #         prefix = f"""You now need to answer the following question, and below are the rules you must follow.\n\
 # You must conduct reasoning inside <think> and </think> first every time you get new information. \
 # After reasoning, if you find some knowledge is lacking, tell me what you want to inquire about by using <search> and </search> and \

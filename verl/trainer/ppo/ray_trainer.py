@@ -362,8 +362,8 @@ class RayPPOTrainer(object):
         else:
             self.kl_ctrl = core_algos.FixedKLController(kl_coef=0.)
 
-        self._create_dataloader()
         self._init_logger()
+        self._create_dataloader()
     
     def _init_logger(self):
         from verl.utils.tracking import Tracking

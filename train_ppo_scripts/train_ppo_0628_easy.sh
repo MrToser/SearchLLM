@@ -1,5 +1,5 @@
-# export HIP_VISIBLE_DEVICES=2,3,4,5
-export HIP_VISIBLE_DEVICES=0,1,6,7
+export HIP_VISIBLE_DEVICES=2,3,4,5
+# export HIP_VISIBLE_DEVICES=0,1,6,7
 export DATA_DIR='data/ids_augument_filter_2_divide_easy'
 export WANDB_API_KEY="c898593d367726b4fbe3d3468b734a49870a348d"
 WAND_PROJECT='Search-R1'
@@ -19,7 +19,7 @@ WAND_PROJECT='Search-R1'
 # export BASE_MODEL='Qwen/Qwen2.5-3B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-em
 export BASE_MODEL='Qwen/Qwen2.5-3B-Instruct'
-export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0628-easy
+export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-3b-it-em-amd-0629-easy
 # export BASE_MODEL='Qwen/Qwen2.5-7B'
 # export EXPERIMENT_NAME=nq-search-r1-ppo-qwen2.5-7b-em
 # export BASE_MODEL='Qwen/Qwen2.5-7B-Instruct'
@@ -45,8 +45,8 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.6 \
     trainer.save_freq=100 \
     trainer.test_freq=20 \
-    trainer.total_epochs=2 \
-    trainer.total_training_steps=200 \
+    trainer.total_epochs=1 \
+    trainer.total_training_steps=null \
     \
     data.max_prompt_length=4096 \
     data.max_response_length=500 \
@@ -75,7 +75,7 @@ PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
     critic.ppo_micro_batch_size=16 \
     \
     actor_rollout_ref.actor.optim.lr=1e-6 \
-    actor_rollout_ref.actor.optim.lr_warmup_steps_ratio=0.25 \
+    actor_rollout_ref.actor.optim.lr_warmup_steps_ratio=0.30 \
     +actor_rollout_ref.actor.optim.lr_warmup_direction="down_constant" \
     critic.optim.lr=1e-5 \
     critic.optim.lr_warmup_steps_ratio=0.05 \
